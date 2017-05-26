@@ -108,6 +108,9 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
         return true
     }
 
+    /**
+     * Navigation Drawer item clicks
+     * */
     fun navigate(id: Int) {
         var fragment: Fragment? = null
         var fragmentClass: Class<*>? = null
@@ -142,7 +145,7 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
         } catch (e: Exception) {
             e.printStackTrace()
         }
-        
+
         val fragmentManager = supportFragmentManager
         fragmentManager.beginTransaction().replace(R.id.framLayout, fragment).commit()
     }

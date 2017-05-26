@@ -19,8 +19,13 @@ import java.util.*
 
 /**
  * Created by Pinkal on 25/5/17.
+ *
+ * @CommonUtils
+ * All common methods are declare here.
+ * which are repeatedly use in project.
+ *
  */
-class CommanUtils {
+class CommonUtils {
 
     companion object {
 

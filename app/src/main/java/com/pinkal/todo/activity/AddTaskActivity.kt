@@ -15,7 +15,7 @@ import android.widget.ImageView
 import android.widget.RelativeLayout
 import android.widget.Spinner
 import com.pinkal.todo.R
-import com.pinkal.todo.utils.CommanUtils
+import com.pinkal.todo.utils.CommonUtils
 import java.text.SimpleDateFormat
 import java.util.*
 
@@ -60,6 +60,9 @@ class AddTaskActivity : AppCompatActivity(), View.OnClickListener {
         initialize()
     }
 
+    /**
+     * initializing views and data
+     * */
     private fun initialize() {
         toolbar = findViewById(R.id.toolbarAddTask) as Toolbar
 
@@ -67,6 +70,9 @@ class AddTaskActivity : AppCompatActivity(), View.OnClickListener {
         supportActionBar!!.setDisplayHomeAsUpEnabled(true)
         supportActionBar!!.setDisplayShowHomeEnabled(true)
 
+        /**
+         * Binding views
+         * */
         edtTitle = findViewById(R.id.edtTitle) as EditText
         edtTask = findViewById(R.id.edtTask) as EditText
         edtSetDate = findViewById(R.id.edtSetDate) as EditText
@@ -77,6 +83,9 @@ class AddTaskActivity : AppCompatActivity(), View.OnClickListener {
         imgCancelTime = findViewById(R.id.imgCancelTime) as ImageView
         relativeLayoutTime = findViewById(R.id.relativeLayoutTime) as RelativeLayout
 
+        /**
+         * click listener
+         * */
         edtSetDate!!.setOnClickListener(this)
         edtSetTime!!.setOnClickListener(this)
         imgCancelDate!!.setOnClickListener(this)
@@ -89,11 +98,17 @@ class AddTaskActivity : AppCompatActivity(), View.OnClickListener {
         return super.onSupportNavigateUp()
     }
 
+    /**
+     * inflating actionbar menu
+     * */
     override fun onCreateOptionsMenu(menu: Menu?): Boolean {
         menuInflater.inflate(R.menu.menu_add_task, menu)
         return super.onCreateOptionsMenu(menu)
     }
 
+    /**
+     * actionbar clicks
+     * */
     override fun onOptionsItemSelected(item: MenuItem?): Boolean {
 
         val id = item!!.itemId
@@ -107,6 +122,9 @@ class AddTaskActivity : AppCompatActivity(), View.OnClickListener {
         return super.onOptionsItemSelected(item)
     }
 
+    /**
+     * Add Task in database
+     * */
     private fun addTask() {
 
         finalTitle = edtTitle!!.text.toString().trim()
@@ -140,13 +158,16 @@ class AddTaskActivity : AppCompatActivity(), View.OnClickListener {
                 }
 
             } else {
-                CommanUtils.toastMessage(mActivity, "Please add task")
+                CommonUtils.toastMessage(mActivity, "Please add task")
             }
         } else {
-            CommanUtils.toastMessage(mActivity, "Please add title")
+            CommonUtils.toastMessage(mActivity, "Please add title")
         }
     }
 
+    /**
+     * Views clicks
+     * */
     override fun onClick(view: View?) {
         when (view!!.id) {
             R.id.edtSetDate -> {
@@ -180,11 +201,14 @@ class AddTaskActivity : AppCompatActivity(), View.OnClickListener {
                 }
             }
             R.id.imgAddCategory -> {
-                CommanUtils.dialogAddCategory(mActivity, null!!)
+                CommonUtils.dialogAddCategory(mActivity, null!!)
             }
         }
     }
 
+    /**
+     * current Date and Time initialize
+     * */
     private fun dateAndTime() {
 
         myCalendar = Calendar.getInstance()
@@ -204,6 +228,9 @@ class AddTaskActivity : AppCompatActivity(), View.OnClickListener {
 
     }
 
+    /**
+     * @DatePickerDialog for selecting date
+     * */
     private fun setDate() {
 
         val datePickerDialog = DatePickerDialog(this, dateSetListener, myCalendar!!.get(Calendar.YEAR),
@@ -213,12 +240,19 @@ class AddTaskActivity : AppCompatActivity(), View.OnClickListener {
 
     }
 
+
+    /**
+     * @TimePickerDialog for selecting time
+     * */
     private fun setTime() {
         val timePickerDialog = TimePickerDialog(this, timeSetListener, myCalendar!!.get(Calendar.HOUR_OF_DAY),
                 myCalendar!!.get(Calendar.MINUTE), false)
         timePickerDialog.show()
     }
 
+    /**
+     * UI Update of time
+     * */
     private fun updateLabelTime() {
 
         val myFormat = "HH:mm"  // HH:mm:ss
@@ -234,6 +268,10 @@ class AddTaskActivity : AppCompatActivity(), View.OnClickListener {
         imgCancelTime!!.visibility = View.VISIBLE
     }
 
+
+    /**
+     * UI Update of time
+     * */
     private fun updateLabelDate() {
 
         val myFormat = "yyyy-MM-dd"

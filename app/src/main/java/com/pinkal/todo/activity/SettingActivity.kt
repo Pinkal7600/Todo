@@ -24,6 +24,9 @@ class SettingActivity : AppCompatActivity() {
         initialize()
     }
 
+    /**
+     * initializing views and data
+     * */
     private fun initialize() {
         toolbar = findViewById(R.id.toolbarSetting) as Toolbar
 
@@ -33,6 +36,9 @@ class SettingActivity : AppCompatActivity() {
         supportActionBar!!.setDisplayShowHomeEnabled(true)
     }
 
+    /**
+     * back arrow button in actionbar click
+     * */
     override fun onSupportNavigateUp(): Boolean {
         onBackPressed()
         return super.onSupportNavigateUp()

@@ -2,6 +2,11 @@ package com.pinkal.todo.utils
 
 /**
  * Created by Pinkal on 25/5/17.
+ *
+ * @Constant
+ * All constant Variable are declare here
+ * and all are companion object so it can
+ * be access directly without reference
  */
 class Constant {
     companion object {

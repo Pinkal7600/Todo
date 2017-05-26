@@ -14,7 +14,7 @@ import com.pinkal.todo.`interface`.CategoryAdd
 import com.pinkal.todo.adapter.CategoryAdapter
 import com.pinkal.todo.database.manager.DBManagerCategory
 import com.pinkal.todo.model.CategoryModel
-import com.pinkal.todo.utils.CommanUtils
+import com.pinkal.todo.utils.CommonUtils
 import java.util.*
 
 /**
@@ -39,21 +39,15 @@ class ManageCategoryFragment : Fragment(), View.OnClickListener, CategoryAdd {
         return view
     }
 
-    override fun onViewCreated(view: View?, savedInstanceState: Bundle?) {
-        super.onViewCreated(view, savedInstanceState)
-
-
-    }
-
+    /**
+     * initializing views and data
+     * */
     private fun initialize(view: View) {
         fab = view.findViewById(R.id.fabAddCategory) as FloatingActionButton
         recyclerView = view.findViewById(R.id.rvCategory) as RecyclerView
         recyclerView!!.layoutManager = LinearLayoutManager(activity!!) as RecyclerView.LayoutManager
 
         fab!!.setOnClickListener(this)
-
-        val onScroll = OnScrollListener(fab)
-        recyclerView!!.addOnScrollListener(onScroll)
 
         val dbManageCategory = DBManagerCategory(activity)
         mArrayList = dbManageCategory.getCategoryList()
@@ -67,15 +61,24 @@ class ManageCategoryFragment : Fragment(), View.OnClickListener, CategoryAdd {
         Log.e(TAG, "Resume")
     }
 
+    /**
+     * Views clicks
+     * */
     override fun onClick(view: View?) {
 
         when (view!!.id) {
             R.id.fabAddCategory -> {
-                CommanUtils.dialogAddCategory(activity, this)
+                CommonUtils.dialogAddCategory(activity, this)
             }
         }
     }
 
+    /**
+     * If new category is added
+     * then RecycleView will update
+     *
+     * @Boolean is category added or not
+     * */
     override fun isCategoryAdded(isAdded: Boolean) {
         if (isAdded) {
 
@@ -86,31 +89,6 @@ class ManageCategoryFragment : Fragment(), View.OnClickListener, CategoryAdd {
 
             categoryAdapter!!.clearAdapter()
             categoryAdapter!!.setList(mArrayList)
-        }
-    }
-
-    /**
-     * Scroll listener for Floating action button show and hide on scroll
-     * */
-    class OnScrollListener(val fab: FloatingActionButton?) : RecyclerView.OnScrollListener() {
-
-        override fun onScrolled(recyclerView: RecyclerView, dx: Int, dy: Int) {
-
-//            if (dy > 0) {
-//                // Scroll Down
-//                if (fab!!.isShown) {
-//                    fab!!.hide()
-//                }
-//            } else if (dy < 0) {
-//                // Scroll Up
-//                if (!fab!!.isShown) {
-//                    fab!!.show()
-//                }
-//            } else {
-//                fab!!.show()
-//            }
-
-            super.onScrolled(recyclerView, dx, dy)
         }
     }
 }

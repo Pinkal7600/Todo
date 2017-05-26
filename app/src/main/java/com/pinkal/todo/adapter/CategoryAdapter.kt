@@ -11,13 +11,14 @@ import com.pinkal.todo.R
 import com.pinkal.todo.`interface`.CategoryDelete
 import com.pinkal.todo.`interface`.CategoryUpdate
 import com.pinkal.todo.model.CategoryModel
-import com.pinkal.todo.utils.CommanUtils
+import com.pinkal.todo.utils.CommonUtils
 
 /**
  * Created by Pinkal on 25/5/17.
  */
 class CategoryAdapter(val mContext: Context, mArrayList: ArrayList<CategoryModel>) :
         RecyclerView.Adapter<CategoryAdapter.ViewHolder>(), CategoryUpdate, CategoryDelete {
+
     val TAG = CategoryAdapter::class.java.simpleName!!
 
     var mArrayList: ArrayList<CategoryModel> = ArrayList()
@@ -29,13 +30,16 @@ class CategoryAdapter(val mContext: Context, mArrayList: ArrayList<CategoryModel
         inflater = mContext.getSystemService(Context.LAYOUT_INFLATER_SERVICE) as LayoutInflater
     }
 
+    /**
+     * Binding views with Adapter
+     * */
     override fun onBindViewHolder(holder: ViewHolder?, position: Int) {
         holder!!.txtCategoryName.text = mArrayList[position].categoryName
         holder!!.imgEditCategory.setOnClickListener({
-            CommanUtils.dialogUpdateCategory(mContext, mArrayList[position].id!!, this)
+            CommonUtils.dialogUpdateCategory(mContext, mArrayList[position].id!!, this)
         })
         holder!!.imgDeleteCategory.setOnClickListener({
-            CommanUtils.dialogDeleteCategory(mContext, mArrayList[position].id!!, this)
+            CommonUtils.dialogDeleteCategory(mContext, mArrayList[position].id!!, this)
         })
     }
 
@@ -43,27 +47,41 @@ class CategoryAdapter(val mContext: Context, mArrayList: ArrayList<CategoryModel
         return mArrayList.size
     }
 
+    /**
+     * Clear list data
+     * */
     fun clearAdapter() {
         this.mArrayList.clear()
         notifyDataSetChanged()
     }
 
+    /**
+     * Set new data list
+     * */
     fun setList(mArrayList: ArrayList<CategoryModel>) {
         this.mArrayList = mArrayList
         notifyDataSetChanged()
     }
 
+    /**
+     * Inflating layout
+     * */
     override fun onCreateViewHolder(parent: ViewGroup?, viewType: Int): ViewHolder {
         val mView = LayoutInflater.from(mContext).inflate(R.layout.row_category, parent, false)
         return ViewHolder(mView)
     }
 
+    /**
+     * update list when category is updated
+     * */
     override fun isCategoryUpdated(isUpdated: Boolean, mArrayList: ArrayList<CategoryModel>) {
         clearAdapter()
         setList(mArrayList)
     }
 
-
+    /**
+     * update list when category is deleted
+     * */
     override fun isCategoryDeleted(isDeleted: Boolean, mArrayList: ArrayList<CategoryModel>) {
         if (isDeleted) {
             clearAdapter()
@@ -71,6 +89,10 @@ class CategoryAdapter(val mContext: Context, mArrayList: ArrayList<CategoryModel
         }
     }
 
+    /**
+     * @ViewHolder class
+     * initialize view
+     * */
     class ViewHolder(view: View?) : RecyclerView.ViewHolder(view) {
         val txtCategoryName: TextView = view!!.findViewById(R.id.txtCategoryName) as TextView
         val imgEditCategory: ImageView = view!!.findViewById(R.id.imgEditCategory) as ImageView
