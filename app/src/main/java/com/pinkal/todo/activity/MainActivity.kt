@@ -29,17 +29,22 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
     var navigationView: NavigationView? = null
     var framLayout: FrameLayout? = null
     var handler: Handler? = null
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
         initialize()
 
+        // loading dashboard fragment
         val ft = supportFragmentManager.beginTransaction()
         ft.replace(R.id.framLayout, DashboardFragment())
         ft.commit()
     }
 
+    /**
+     * initializing views and data
+     * */
     fun initialize() {
         toolbar = findViewById(R.id.toolbarMain) as Toolbar
         drawer = findViewById(R.id.drawer_layout) as DrawerLayout
@@ -67,12 +72,17 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
         }
     }
 
+    /**
+     * inflating actionbar menu
+     * */
     override fun onCreateOptionsMenu(menu: Menu): Boolean {
-        // Inflate the menu; this adds items to the action bar if it is present.
         menuInflater.inflate(R.menu.main, menu)
         return true
     }
 
+    /**
+     * actionbar click
+     * */
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
 
         val id = item.itemId
@@ -88,8 +98,13 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
     }
 
     override fun onNavigationItemSelected(item: MenuItem): Boolean {
-        // Handle navigation view item clicks here.
+
+        /**
+         * @Handler
+         * load fragment after delay of drawer close
+         * */
         handler!!.postDelayed({ navigate(item.itemId) }, 300)
+
         return true
     }
 
@@ -127,8 +142,7 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
         } catch (e: Exception) {
             e.printStackTrace()
         }
-
-
+        
         val fragmentManager = supportFragmentManager
         fragmentManager.beginTransaction().replace(R.id.framLayout, fragment).commit()
     }
