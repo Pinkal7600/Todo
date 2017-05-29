@@ -84,9 +84,9 @@ fun dialogAddCategory(context: Context, categoryAdd: CategoryAdd) {
 
     val input: EditText = promptsView.findViewById(R.id.edtAddCat) as EditText
 
-    alert.setPositiveButton("Add", { _, _ -> })
+    alert.setPositiveButton(R.string.add, { _, _ -> })
 
-    alert.setNegativeButton("Cancel", { _, _ -> })
+    alert.setNegativeButton(R.string.cancel, { _, _ -> })
     val alertDialog = alert.create()
 
     val recycleUpdate = categoryAdd
@@ -109,11 +109,11 @@ fun dialogAddCategory(context: Context, categoryAdd: CategoryAdd) {
 
                 recycleUpdate.isCategoryAdded(true)
 
-                Toast.makeText(context, "Category add", Toast.LENGTH_SHORT).show()
+                toastMessage(context, context.getString(R.string.category_added))
 
                 alertDialog.dismiss()
             } else {
-                Toast.makeText(context, "Please enter category to add", Toast.LENGTH_SHORT).show()
+                toastMessage(context, context.getString(R.string.please_enter_category_to_add))
             }
         })
     })
@@ -139,9 +139,9 @@ fun dialogUpdateCategory(context: Context, id: Int, categoryUpdate: CategoryUpda
     input.setText(dbManager.getCategoryName(id))
     input.setSelection(input.text.length)
 
-    alert.setPositiveButton("UPDATE", { _, _ -> })
+    alert.setPositiveButton(R.string.update, { _, _ -> })
 
-    alert.setNegativeButton("Cancel", { _, _ -> })
+    alert.setNegativeButton(R.string.cancel, { _, _ -> })
     val alertDialog = alert.create()
 
     val categoryUpdated = categoryUpdate
@@ -162,10 +162,10 @@ fun dialogUpdateCategory(context: Context, id: Int, categoryUpdate: CategoryUpda
                 val mArrayList = dbManager.getCategoryList()
                 categoryUpdated.isCategoryUpdated(true, mArrayList)
 
-                Toast.makeText(context, "Category Updated", Toast.LENGTH_SHORT).show()
+                toastMessage(context, context.getString(R.string.category_updated))
                 alertDialog.dismiss()
             } else {
-                Toast.makeText(context, "Please enter category to add", Toast.LENGTH_SHORT).show()
+                toastMessage(context, context.getString(R.string.please_edit_category_to_update))
             }
         })
     })
@@ -184,9 +184,9 @@ fun dialogDeleteCategory(context: Context, id: Int, categoryDelete: CategoryDele
     alert.setTitle("Delete Category")
     alert.setMessage("Do you want to delete this category?")
 
-    alert.setPositiveButton("DELETE", { _, _ -> })
+    alert.setPositiveButton(R.string.delete, { _, _ -> })
 
-    alert.setNegativeButton("Cancel", { _, _ -> })
+    alert.setNegativeButton(R.string.cancel, { _, _ -> })
     val alertDialog = alert.create()
 
     val categoryDeleted = categoryDelete
@@ -201,7 +201,7 @@ fun dialogDeleteCategory(context: Context, id: Int, categoryDelete: CategoryDele
             val mArrayList = dbManager.getCategoryList()
             categoryDeleted.isCategoryDeleted(true, mArrayList)
 
-            Toast.makeText(context, "Category Deleted", Toast.LENGTH_SHORT).show()
+            toastMessage(context, context.getString(R.string.category_deleted))
             alertDialog.dismiss()
         })
     })

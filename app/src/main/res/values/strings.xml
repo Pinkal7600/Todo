@@ -15,6 +15,28 @@
     <string name="add_task">Add Task</string>
     <string name="settings">Settings</string>
     <string name="action_done">Done</string>
+    <string name="task_title">Task Title</string>
+    <string name="enter_task_title">Enter task title</string>
+    <string name="what_is_to_be_done">What is to be done?</string>
+    <string name="enter_your_task">Enter your task</string>
+    <string name="set_date_and_time">Set date and time</string>
+    <string name="add_to_category">Add to category</string>
+    <string name="set_date">Set Date</string>
+    <string name="set_time">Set Time</string>
+    <string name="add_category">Add Category</string>
+    <string name="enter_category">Enter category</string>
+    <string name="update_category">Update Category</string>
+    <string name="please_add_task">Please add task</string>
+    <string name="please_add_title">Please add title</string>
+    <string name="add">ADD</string>
+    <string name="cancel">CANCEL</string>
+    <string name="category_added">Category Added</string>
+    <string name="please_enter_category_to_add">Please enter category to add</string>
+    <string name="update">UPDATE</string>
+    <string name="category_updated">Category updated</string>
+    <string name="please_edit_category_to_update">Please edit category to update</string>
+    <string name="delete">DELETE</string>
+    <string name="category_deleted">Category deleted</string>
 
 
 </resources>

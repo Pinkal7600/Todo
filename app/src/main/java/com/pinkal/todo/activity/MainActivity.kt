@@ -118,23 +118,23 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
         when (id) {
             R.id.nav_dashboard -> {
                 fragmentClass = DashboardFragment::class.java
-                toolbar!!.title = "Dashboard"
+                toolbar!!.title = getString(R.string.dashboard)
             }
             R.id.nav_category -> {
                 fragmentClass = ManageCategoryFragment::class.java
-                toolbar!!.title = "Category"
+                toolbar!!.title = getString(R.string.category)
             }
             R.id.nav_history -> {
                 fragmentClass = HistoryFragment::class.java
-                toolbar!!.title = "History"
+                toolbar!!.title = getString(R.string.history)
             }
             R.id.nav_rate_us -> {
                 fragmentClass = RateUsFragment::class.java
-                toolbar!!.title = "Rate Us"
+                toolbar!!.title = getString(R.string.rate_us)
             }
             R.id.nav_share_app -> {
                 fragmentClass = ShareAppFragment::class.java
-                toolbar!!.title = "Share App"
+                toolbar!!.title = getString(R.string.share_app)
             }
         }
 

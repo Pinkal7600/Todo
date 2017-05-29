@@ -30,7 +30,7 @@
         android:layout_marginLeft="16dp"
         android:layout_marginStart="16dp"
         android:layout_marginTop="16dp"
-        android:text="Task Title"
+        android:text="@string/task_title"
         android:textColor="@color/colorAccent"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/appBarLayout" />
@@ -44,7 +44,7 @@
         android:layout_marginRight="16dp"
         android:layout_marginStart="16dp"
         android:ems="10"
-        android:hint="Enter task title"
+        android:hint="@string/enter_task_title"
         android:inputType="textCapSentences"
         android:singleLine="true"
         app:layout_constraintHorizontal_bias="0.0"
@@ -59,7 +59,7 @@
         android:layout_marginLeft="16dp"
         android:layout_marginStart="16dp"
         android:layout_marginTop="15dp"
-        android:text="What is to be done?"
+        android:text="@string/what_is_to_be_done"
         android:textColor="@color/colorAccent"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/edtTitle" />
@@ -73,7 +73,7 @@
         android:layout_marginRight="16dp"
         android:layout_marginStart="16dp"
         android:ems="10"
-        android:hint="Enter your task"
+        android:hint="@string/enter_your_task"
         android:inputType="textCapSentences"
         android:singleLine="true"
         app:layout_constraintHorizontal_bias="1.0"
@@ -88,7 +88,7 @@
         android:layout_marginLeft="16dp"
         android:layout_marginStart="16dp"
         android:layout_marginTop="16dp"
-        android:text="Set dateSetListener and timeSetListener"
+        android:text="@string/set_date_and_time"
         android:textColor="@color/colorAccent"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/edtTask" />
@@ -100,7 +100,7 @@
         android:layout_marginLeft="16dp"
         android:layout_marginStart="16dp"
         android:layout_marginTop="16dp"
-        android:text="Add to category"
+        android:text="@string/add_to_category"
         android:textColor="@color/colorAccent"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/relativeLayoutTime" />
@@ -157,7 +157,7 @@
             android:drawableRight="@drawable/ic_date_range_black_24dp"
             android:drawableTint="@color/colorAccent"
             android:focusable="false"
-            android:hint="Set Date" />
+            android:hint="@string/set_date" />
 
         <ImageView
             android:id="@+id/imgCancelDate"
@@ -193,7 +193,7 @@
             android:drawableRight="@drawable/ic_access_time_black_24dp"
             android:drawableTint="@color/colorAccent"
             android:focusable="false"
-            android:hint="Set Time" />
+            android:hint="@string/set_time" />
 
         <ImageView
             android:id="@+id/imgCancelTime"

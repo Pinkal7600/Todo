@@ -160,10 +160,10 @@ class AddTaskActivity : AppCompatActivity(), View.OnClickListener, CategoryAdd {
                 }
 
             } else {
-                toastMessage(mActivity, "Please add task")
+                toastMessage(mActivity, getString(R.string.please_add_task))
             }
         } else {
-            toastMessage(mActivity, "Please add title")
+            toastMessage(mActivity, getString(R.string.please_add_title))
         }
     }
 

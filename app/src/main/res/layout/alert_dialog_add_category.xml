@@ -12,7 +12,7 @@
         android:layout_marginLeft="10dp"
         android:layout_marginRight="10dp"
         android:layout_marginTop="10dp"
-        android:text="Add Category"
+        android:text="@string/add_category"
         android:textColor="@color/colorBlack"
         android:textSize="18dp"
         android:textStyle="bold" />
@@ -24,7 +24,7 @@
         android:layout_marginLeft="5dp"
         android:layout_marginRight="5dp"
         android:layout_marginTop="10dp"
-        android:hint="Enter category"
+        android:hint="@string/enter_category"
         android:inputType="textCapSentences"
         android:paddingLeft="5dp">
 
