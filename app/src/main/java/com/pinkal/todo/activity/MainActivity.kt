@@ -121,7 +121,7 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
                 toolbar!!.title = getString(R.string.dashboard)
             }
             R.id.nav_category -> {
-                fragmentClass = ManageCategoryFragment::class.java
+                fragmentClass = CategoryFragment::class.java
                 toolbar!!.title = getString(R.string.category)
             }
             R.id.nav_history -> {

@@ -2,6 +2,7 @@ package com.pinkal.todo.adapter
 
 import android.content.Context
 import android.support.v7.widget.RecyclerView
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -9,6 +10,7 @@ import android.widget.ImageView
 import android.widget.TextView
 import com.pinkal.todo.R
 import com.pinkal.todo.`interface`.CategoryDelete
+import com.pinkal.todo.`interface`.CategoryIsEmpty
 import com.pinkal.todo.`interface`.CategoryUpdate
 import com.pinkal.todo.model.CategoryModel
 import com.pinkal.todo.utils.dialogDeleteCategory
@@ -17,7 +19,7 @@ import com.pinkal.todo.utils.dialogUpdateCategory
 /**
  * Created by Pinkal on 25/5/17.
  */
-class CategoryAdapter(val mContext: Context, mArrayList: ArrayList<CategoryModel>) :
+class CategoryAdapter(val mContext: Context, mArrayList: ArrayList<CategoryModel>, categoryIsEmpty: CategoryIsEmpty) :
         RecyclerView.Adapter<CategoryAdapter.ViewHolder>(), CategoryUpdate, CategoryDelete {
 
     val TAG = CategoryAdapter::class.java.simpleName!!
@@ -25,6 +27,7 @@ class CategoryAdapter(val mContext: Context, mArrayList: ArrayList<CategoryModel
     var mArrayList: ArrayList<CategoryModel> = ArrayList()
 
     var inflater: LayoutInflater? = null
+    var isEmpty: CategoryIsEmpty = categoryIsEmpty
 
     init {
         this.mArrayList = mArrayList
@@ -45,6 +48,12 @@ class CategoryAdapter(val mContext: Context, mArrayList: ArrayList<CategoryModel
     }
 
     override fun getItemCount(): Int {
+        Log.e(TAG, "size : " + mArrayList.size)
+        if (mArrayList.size == 0) {
+            isEmpty.categoryIsEmpty(true)
+        } else {
+            isEmpty.categoryIsEmpty(false)
+        }
         return mArrayList.size
     }
 

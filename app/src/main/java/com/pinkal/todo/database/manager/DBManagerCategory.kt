@@ -78,7 +78,7 @@ class DBManagerCategory(val context: Context) {
                 categoryName = cursor.getString(cursor.getColumnIndex(CATEGORY_NAME))
             } while (cursor.moveToNext())
         }
-
+        cursor.close()
         close()
         return categoryName
     }
@@ -105,7 +105,30 @@ class DBManagerCategory(val context: Context) {
 
             } while (cursor.moveToNext())
         }
+        cursor.close()
         close()
         return arrayList
+    }
+
+    fun getListOfCategory(): List<String> {
+        open()
+
+        var labels: ArrayList<String> = ArrayList()
+
+        val query = "SELECT * FROM " + TABLE_CATEGORY
+        val cursor = database!!.rawQuery(query, null)
+
+        if (cursor != null && cursor.moveToFirst()) {
+            do {
+                labels.add(cursor.getString(cursor.getColumnIndex(CATEGORY_NAME)))
+
+            } while (cursor.moveToNext())
+        }
+        cursor.close()
+        close()
+
+        val labelsList: List<String> = labels
+
+        return labelsList
     }
 }

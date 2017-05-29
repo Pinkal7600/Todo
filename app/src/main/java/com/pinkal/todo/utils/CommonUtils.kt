@@ -127,6 +127,7 @@ fun dialogAddCategory(context: Context, categoryAdd: CategoryAdd) {
 fun dialogUpdateCategory(context: Context, id: Int, categoryUpdate: CategoryUpdate) {
 
     val dbManager = DBManagerCategory(context)
+    val catName = dbManager.getCategoryName(id)
 
     val li = LayoutInflater.from(context)
     val promptsView = li.inflate(R.layout.alert_dialog_update_category, null)
@@ -136,7 +137,7 @@ fun dialogUpdateCategory(context: Context, id: Int, categoryUpdate: CategoryUpda
 
     val input: EditText = promptsView.findViewById(R.id.edtUpdateCat) as EditText
 
-    input.setText(dbManager.getCategoryName(id))
+    input.setText(catName)
     input.setSelection(input.text.length)
 
     alert.setPositiveButton(R.string.update, { _, _ -> })
@@ -156,16 +157,20 @@ fun dialogUpdateCategory(context: Context, id: Int, categoryUpdate: CategoryUpda
             Log.e(ContentValues.TAG, "Category : " + cat)
 
             if (cat != "") {
+                if (cat != catName) {
 
-                dbManager.update(id, cat)
+                    dbManager.update(id, cat)
 
-                val mArrayList = dbManager.getCategoryList()
-                categoryUpdated.isCategoryUpdated(true, mArrayList)
+                    val mArrayList = dbManager.getCategoryList()
+                    categoryUpdated.isCategoryUpdated(true, mArrayList)
 
-                toastMessage(context, context.getString(R.string.category_updated))
-                alertDialog.dismiss()
+                    toastMessage(context, context.getString(R.string.category_updated))
+                    alertDialog.dismiss()
+                } else {
+                    toastMessage(context, context.getString(R.string.please_edit_category_to_update))
+                }
             } else {
-                toastMessage(context, context.getString(R.string.please_edit_category_to_update))
+                toastMessage(context, context.getString(R.string.please_enter_something_to_update))
             }
         })
     })

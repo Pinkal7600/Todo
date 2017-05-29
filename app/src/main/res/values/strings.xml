@@ -37,6 +37,8 @@
     <string name="please_edit_category_to_update">Please edit category to update</string>
     <string name="delete">DELETE</string>
     <string name="category_deleted">Category deleted</string>
+    <string name="please_enter_something_to_update">Please enter something to update</string>
+    <string name="no_category_to_display">No category to display</string>
 
 
 </resources>

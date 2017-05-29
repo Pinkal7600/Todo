@@ -9,8 +9,10 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.TextView
 import com.pinkal.todo.R
 import com.pinkal.todo.`interface`.CategoryAdd
+import com.pinkal.todo.`interface`.CategoryIsEmpty
 import com.pinkal.todo.adapter.CategoryAdapter
 import com.pinkal.todo.database.manager.DBManagerCategory
 import com.pinkal.todo.model.CategoryModel
@@ -20,19 +22,20 @@ import java.util.*
 /**
  * Created by Pinkal on 22/5/17.
  */
-class ManageCategoryFragment : Fragment(), View.OnClickListener, CategoryAdd {
+class CategoryFragment : Fragment(), View.OnClickListener, CategoryAdd, CategoryIsEmpty {
 
-    val TAG: String = ManageCategoryFragment::class.java.simpleName
+    val TAG: String = CategoryFragment::class.java.simpleName
 
     var fab: FloatingActionButton? = null
 
     var recyclerView: RecyclerView? = null
+
+    var txtNoCategory: TextView? = null
     var mArrayList: ArrayList<CategoryModel> = ArrayList()
     var categoryAdapter: CategoryAdapter? = null
-
     override fun onCreateView(inflater: LayoutInflater?, container: ViewGroup?, savedInstanceState: Bundle?): View? {
 
-        var view = inflater!!.inflate(R.layout.fragment_manage_category, container, false)
+        var view = inflater!!.inflate(R.layout.fragment_category, container, false)
 
         initialize(view)
 
@@ -43,6 +46,7 @@ class ManageCategoryFragment : Fragment(), View.OnClickListener, CategoryAdd {
      * initializing views and data
      * */
     private fun initialize(view: View) {
+        txtNoCategory = view.findViewById(R.id.txtNoCategory) as TextView
         fab = view.findViewById(R.id.fabAddCategory) as FloatingActionButton
         recyclerView = view.findViewById(R.id.rvCategory) as RecyclerView
         recyclerView!!.layoutManager = LinearLayoutManager(activity!!) as RecyclerView.LayoutManager
@@ -52,7 +56,7 @@ class ManageCategoryFragment : Fragment(), View.OnClickListener, CategoryAdd {
         val dbManageCategory = DBManagerCategory(activity)
         mArrayList = dbManageCategory.getCategoryList()
 
-        categoryAdapter = CategoryAdapter(activity, mArrayList)
+        categoryAdapter = CategoryAdapter(activity, mArrayList, this)
         recyclerView!!.adapter = categoryAdapter
     }
 
@@ -89,6 +93,14 @@ class ManageCategoryFragment : Fragment(), View.OnClickListener, CategoryAdd {
 
             categoryAdapter!!.clearAdapter()
             categoryAdapter!!.setList(mArrayList)
+        }
+    }
+
+    override fun categoryIsEmpty(isEmpty: Boolean) {
+        if (isEmpty) {
+            txtNoCategory!!.visibility = View.VISIBLE
+        } else {
+            txtNoCategory!!.visibility = View.GONE
         }
     }
 }
