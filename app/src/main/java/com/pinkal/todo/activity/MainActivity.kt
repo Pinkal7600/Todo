@@ -103,7 +103,7 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
          * @Handler
          * load fragment after delay of drawer close
          * */
-        handler!!.postDelayed({ navigate(item.itemId) }, 300)
+        handler!!.postDelayed({ navigate(item.itemId) }, 280)
 
         return true
     }

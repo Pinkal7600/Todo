@@ -15,7 +15,9 @@ import android.widget.ImageView
 import android.widget.RelativeLayout
 import android.widget.Spinner
 import com.pinkal.todo.R
-import com.pinkal.todo.utils.CommonUtils
+import com.pinkal.todo.`interface`.CategoryAdd
+import com.pinkal.todo.utils.dialogAddCategory
+import com.pinkal.todo.utils.toastMessage
 import java.text.SimpleDateFormat
 import java.util.*
 
@@ -23,7 +25,7 @@ import java.util.*
 /**
  * Created by Pinkal on 24/5/17.
  */
-class AddTaskActivity : AppCompatActivity(), View.OnClickListener {
+class AddTaskActivity : AppCompatActivity(), View.OnClickListener, CategoryAdd {
 
     val TAG: String = MainActivity::class.java.simpleName
 
@@ -158,10 +160,10 @@ class AddTaskActivity : AppCompatActivity(), View.OnClickListener {
                 }
 
             } else {
-                CommonUtils.toastMessage(mActivity, "Please add task")
+                toastMessage(mActivity, "Please add task")
             }
         } else {
-            CommonUtils.toastMessage(mActivity, "Please add title")
+            toastMessage(mActivity, "Please add title")
         }
     }
 
@@ -201,7 +203,7 @@ class AddTaskActivity : AppCompatActivity(), View.OnClickListener {
                 }
             }
             R.id.imgAddCategory -> {
-                CommonUtils.dialogAddCategory(mActivity, null!!)
+                dialogAddCategory(mActivity, this)
             }
         }
     }
@@ -286,5 +288,11 @@ class AddTaskActivity : AppCompatActivity(), View.OnClickListener {
 
         relativeLayoutTime!!.visibility = View.VISIBLE
         imgCancelDate!!.visibility = View.VISIBLE
+    }
+
+    override fun isCategoryAdded(isAdded: Boolean) {
+        if (isAdded) {
+
+        }
     }
 }

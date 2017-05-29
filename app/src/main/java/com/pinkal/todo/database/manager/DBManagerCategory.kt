@@ -6,7 +6,9 @@ import android.database.SQLException
 import android.database.sqlite.SQLiteDatabase
 import com.pinkal.todo.database.DatabaseHelper
 import com.pinkal.todo.model.CategoryModel
-import com.pinkal.todo.utils.Constant
+import com.pinkal.todo.utils.CATEGORY_NAME
+import com.pinkal.todo.utils.ID
+import com.pinkal.todo.utils.TABLE_CATEGORY
 
 /**
  * Created by Pinkal on 25/5/17.
@@ -32,7 +34,7 @@ class DBManagerCategory(val context: Context) {
      */
     fun insert(contentValues: ContentValues) {
         open()
-        database!!.insert(Constant.TABLE_CATEGORY, null, contentValues)
+        database!!.insert(TABLE_CATEGORY, null, contentValues)
         close()
     }
 
@@ -43,9 +45,9 @@ class DBManagerCategory(val context: Context) {
         open()
         val contentValue = ContentValues()
 
-        contentValue.put(Constant.CATEGORY_NAME, categoryName)
+        contentValue.put(CATEGORY_NAME, categoryName)
 
-        database!!.update(Constant.TABLE_CATEGORY, contentValue, Constant.ID + " = " + id, null)
+        database!!.update(TABLE_CATEGORY, contentValue, ID + " = " + id, null)
         close()
     }
 
@@ -54,7 +56,7 @@ class DBManagerCategory(val context: Context) {
      */
     fun delete(id: Int) {
         open()
-        database!!.delete(Constant.TABLE_CATEGORY, Constant.ID + "=" + id, null)
+        database!!.delete(TABLE_CATEGORY, ID + "=" + id, null)
         close()
     }
 
@@ -66,14 +68,14 @@ class DBManagerCategory(val context: Context) {
         var categoryName: String = ""
         open()
 
-        val query = "SELECT * FROM " + Constant.TABLE_CATEGORY +
-                " WHERE " + Constant.ID + "=" + id
+        val query = "SELECT * FROM " + TABLE_CATEGORY +
+                " WHERE " + ID + "=" + id
 
         val cursor = database!!.rawQuery(query, null)
 
         if (cursor.moveToFirst()) {
             do {
-                categoryName = cursor.getString(cursor.getColumnIndex(Constant.CATEGORY_NAME))
+                categoryName = cursor.getString(cursor.getColumnIndex(CATEGORY_NAME))
             } while (cursor.moveToNext())
         }
 
@@ -89,15 +91,15 @@ class DBManagerCategory(val context: Context) {
 
         open()
 
-        val query = "SELECT * FROM " + Constant.TABLE_CATEGORY
+        val query = "SELECT * FROM " + TABLE_CATEGORY
         val cursor = database!!.rawQuery(query, null)
 
         if (cursor != null && cursor.moveToFirst()) {
             do {
                 val categoryModel = CategoryModel()
 
-                categoryModel.id = Integer.parseInt(cursor.getString(cursor.getColumnIndex(Constant.ID)))
-                categoryModel.categoryName = cursor.getString(cursor.getColumnIndex(Constant.CATEGORY_NAME))
+                categoryModel.id = Integer.parseInt(cursor.getString(cursor.getColumnIndex(ID)))
+                categoryModel.categoryName = cursor.getString(cursor.getColumnIndex(CATEGORY_NAME))
 
                 arrayList.add(categoryModel)
 

@@ -14,7 +14,8 @@
         android:layout_marginTop="10dp"
         android:text="Add Category"
         android:textColor="@color/colorBlack"
-        android:textSize="18dp" />
+        android:textSize="18dp"
+        android:textStyle="bold" />
 
     <EditText
         android:id="@+id/edtAddCat"

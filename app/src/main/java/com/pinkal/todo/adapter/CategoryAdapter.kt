@@ -11,7 +11,8 @@ import com.pinkal.todo.R
 import com.pinkal.todo.`interface`.CategoryDelete
 import com.pinkal.todo.`interface`.CategoryUpdate
 import com.pinkal.todo.model.CategoryModel
-import com.pinkal.todo.utils.CommonUtils
+import com.pinkal.todo.utils.dialogDeleteCategory
+import com.pinkal.todo.utils.dialogUpdateCategory
 
 /**
  * Created by Pinkal on 25/5/17.
@@ -35,11 +36,11 @@ class CategoryAdapter(val mContext: Context, mArrayList: ArrayList<CategoryModel
      * */
     override fun onBindViewHolder(holder: ViewHolder?, position: Int) {
         holder!!.txtCategoryName.text = mArrayList[position].categoryName
-        holder!!.imgEditCategory.setOnClickListener({
-            CommonUtils.dialogUpdateCategory(mContext, mArrayList[position].id!!, this)
+        holder.imgEditCategory.setOnClickListener({
+            dialogUpdateCategory(mContext, mArrayList[position].id!!, this)
         })
-        holder!!.imgDeleteCategory.setOnClickListener({
-            CommonUtils.dialogDeleteCategory(mContext, mArrayList[position].id!!, this)
+        holder.imgDeleteCategory.setOnClickListener({
+            dialogDeleteCategory(mContext, mArrayList[position].id!!, this)
         })
     }
 

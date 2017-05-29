@@ -14,7 +14,7 @@ import com.pinkal.todo.`interface`.CategoryAdd
 import com.pinkal.todo.adapter.CategoryAdapter
 import com.pinkal.todo.database.manager.DBManagerCategory
 import com.pinkal.todo.model.CategoryModel
-import com.pinkal.todo.utils.CommonUtils
+import com.pinkal.todo.utils.dialogAddCategory
 import java.util.*
 
 /**
@@ -68,7 +68,7 @@ class ManageCategoryFragment : Fragment(), View.OnClickListener, CategoryAdd {
 
         when (view!!.id) {
             R.id.fabAddCategory -> {
-                CommonUtils.dialogAddCategory(activity, this)
+                dialogAddCategory(activity, this)
             }
         }
     }
