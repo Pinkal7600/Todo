@@ -33,6 +33,7 @@ class CategoryFragment : Fragment(), View.OnClickListener, CategoryAdd, Category
     var txtNoCategory: TextView? = null
     var mArrayList: ArrayList<CategoryModel> = ArrayList()
     var categoryAdapter: CategoryAdapter? = null
+    
     override fun onCreateView(inflater: LayoutInflater?, container: ViewGroup?, savedInstanceState: Bundle?): View? {
 
         var view = inflater!!.inflate(R.layout.fragment_category, container, false)

@@ -9,22 +9,30 @@ package com.pinkal.todo.utils
  */
 
 
-/**************** Database ****************/
+/***************  Database  ***************/
 
-// Database helper
 val DB_NAME = "Todo.db"
 val DB_VERSION = 1
 
-// Table name
-val TABLE_CATEGORY = "CATEGORY"
 
-// Table columns for CATEGORY
+/***************  Category  ****************/
+
+val TABLE_CATEGORY = "CATEGORY"
 val ID = "id"
 val CATEGORY_NAME = "category_name"
 
-/*******************************************/
 
-/***************            ****************/
+/*****************   Task  *****************/
+
+val TABLE_TASK = "TASK"
+val TASK_TITLE = "title"
+val TASK_TASK = "task"
+val TASK_CATEGORY = "category"
+val TASK_DATE = "date"
+val TASK_TIME = "time"
 
 
-/*******************************************/
+/************* onActivityResult *****************/
+
+val DASHBOARD_RECYCLEVIEW_REFRESH = 101
+

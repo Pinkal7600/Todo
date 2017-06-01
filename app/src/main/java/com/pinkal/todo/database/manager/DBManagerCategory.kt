@@ -32,9 +32,14 @@ class DBManagerCategory(val context: Context) {
     /**
      * insert value in Category table
      */
-    fun insert(contentValues: ContentValues) {
+    fun insert(category: String) {
         open()
+
+        val contentValues = ContentValues()
+        contentValues.put(CATEGORY_NAME, category)
+
         database!!.insert(TABLE_CATEGORY, null, contentValues)
+
         close()
     }
 

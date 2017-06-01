@@ -96,20 +96,16 @@ fun dialogAddCategory(context: Context, categoryAdd: CategoryAdd) {
         val button = alertDialog.getButton(AlertDialog.BUTTON_POSITIVE)
         button.setOnClickListener({
 
-            val cat: String = input.text.toString().trim()
+            val categoryName: String = input.text.toString().trim()
 
-            Log.e(ContentValues.TAG, "Category : " + cat)
+            Log.e(ContentValues.TAG, "Category : " + categoryName)
 
-            if (cat != "") {
+            if (categoryName != "") {
 
                 val dbManager = DBManagerCategory(context)
-                val contentValues = ContentValues()
-                contentValues.put(CATEGORY_NAME, cat)
-                dbManager.insert(contentValues)
+                dbManager.insert(categoryName)
 
                 recycleUpdate.isCategoryAdded(true)
-
-                toastMessage(context, context.getString(R.string.category_added))
 
                 alertDialog.dismiss()
             } else {
@@ -164,7 +160,6 @@ fun dialogUpdateCategory(context: Context, id: Int, categoryUpdate: CategoryUpda
                     val mArrayList = dbManager.getCategoryList()
                     categoryUpdated.isCategoryUpdated(true, mArrayList)
 
-                    toastMessage(context, context.getString(R.string.category_updated))
                     alertDialog.dismiss()
                 } else {
                     toastMessage(context, context.getString(R.string.please_edit_category_to_update))
@@ -206,7 +201,6 @@ fun dialogDeleteCategory(context: Context, id: Int, categoryDelete: CategoryDele
             val mArrayList = dbManager.getCategoryList()
             categoryDeleted.isCategoryDeleted(true, mArrayList)
 
-            toastMessage(context, context.getString(R.string.category_deleted))
             alertDialog.dismiss()
         })
     })

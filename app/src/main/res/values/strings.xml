@@ -39,6 +39,7 @@
     <string name="category_deleted">Category deleted</string>
     <string name="please_enter_something_to_update">Please enter something to update</string>
     <string name="no_category_to_display">No category to display</string>
+    <string name="no_task_to_show">No task to show</string>
 
 
 </resources>

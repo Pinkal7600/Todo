@@ -22,9 +22,23 @@ class DatabaseHelper(context: Context) : SQLiteOpenHelper(context, DB_NAME, null
 
     private val DROP_CATEGORY_TABLE = "DROP TABLE IF EXISTS " + TABLE_CATEGORY
 
+    /****************** Task ******************/
+
+    private val CREATE_TASK_TABLE =
+            "CREATE TABLE IF NOT EXISTS " + TABLE_TASK + "(" +
+                    ID + " INTEGER PRIMARY KEY AUTOINCREMENT, " +
+                    TASK_TITLE + " TEXT, " +
+                    TASK_TASK + " TEXT, " +
+                    TASK_CATEGORY + " TEXT, " +
+                    TASK_DATE + " TEXT, " +
+                    TASK_TIME + " TEXT); "
+
+    private val DROP_TASK_TABLE = "DROP TABLE IF EXISTS " + TABLE_TASK
 
     override fun onCreate(db: SQLiteDatabase?) {
+
         db!!.execSQL(CREATE_CATEGORY_TABLE)
+        db.execSQL(CREATE_TASK_TABLE)
 
         val cv = ContentValues()
         cv.put(CATEGORY_NAME, "Personal")
@@ -49,6 +63,7 @@ class DatabaseHelper(context: Context) : SQLiteOpenHelper(context, DB_NAME, null
 
     override fun onUpgrade(db: SQLiteDatabase?, oldVersion: Int, newVersion: Int) {
         db!!.execSQL(DROP_CATEGORY_TABLE)
+        db!!.execSQL(DROP_TASK_TABLE)
         onCreate(db)
     }
 }

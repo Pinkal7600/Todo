@@ -14,6 +14,8 @@ import android.widget.*
 import com.pinkal.todo.R
 import com.pinkal.todo.`interface`.CategoryAdd
 import com.pinkal.todo.database.manager.DBManagerCategory
+import com.pinkal.todo.database.manager.DBManagerTask
+import com.pinkal.todo.listener.onItemSelectedListener
 import com.pinkal.todo.utils.dialogAddCategory
 import com.pinkal.todo.utils.toastMessage
 import java.text.SimpleDateFormat
@@ -25,6 +27,7 @@ import kotlin.collections.ArrayList
  * Created by Pinkal on 24/5/17.
  */
 class AddTaskActivity : AppCompatActivity(), View.OnClickListener, CategoryAdd, onItemSelectedListener.CategoryName {
+
     val TAG: String = MainActivity::class.java.simpleName
 
     val mActivity: Activity = this@AddTaskActivity
@@ -41,6 +44,7 @@ class AddTaskActivity : AppCompatActivity(), View.OnClickListener, CategoryAdd, 
     var imgCancelDate: ImageView? = null
     var imgCancelTime: ImageView? = null
     var relativeLayoutTime: RelativeLayout? = null
+
     private var myCalendar: Calendar? = null
 
     private var dateSetListener: DatePickerDialog.OnDateSetListener? = null
@@ -132,31 +136,42 @@ class AddTaskActivity : AppCompatActivity(), View.OnClickListener, CategoryAdd, 
         finalTitle = edtTitle!!.text.toString().trim()
         finalTask = edtTask!!.text.toString().trim()
 
+        val dbManager = DBManagerTask(mActivity)
+
         if (finalTitle != "") {
             if (finalTask != "") {
                 if (finalDate != "") {
                     if (finalTime != "") {
 
                         //if time enter
-                        Log.e(TAG, "Title : " + finalTitle)
-                        Log.e(TAG, "Task : " + finalTask)
-                        Log.e(TAG, "Date : " + finalDate)
-                        Log.e(TAG, "Time : " + finalTime)
-                        Log.e(TAG, "Category : " + finalCategoryName)
+                        Log.e(TAG, "Title : " + finalTitle + "\nTask : " + finalTask +
+                                "\nDate : " + finalDate + "\nTime : " + finalTime +
+                                "\nCategory : " + finalCategoryName)
 
+                        dbManager.insert(finalTitle, finalTask, finalCategoryName, finalDate, finalTime)
+
+                        setResult(Activity.RESULT_OK)
+                        finish()
                     } else {
+
                         //if only date enter
-                        Log.e(TAG, "Title : " + finalTitle)
-                        Log.e(TAG, "Task : " + finalTask)
-                        Log.e(TAG, "Date : " + finalDate)
-                        Log.e(TAG, "Category : " + finalCategoryName)
+                        Log.e(TAG, "Title : " + finalTitle + "\nTask : " + finalTask +
+                                "\nDate : " + finalDate + "\nCategory : " + finalCategoryName)
+
+                        dbManager.insert(finalTitle, finalTask, finalCategoryName, finalDate)
+                        setResult(Activity.RESULT_OK)
+                        finish()
                     }
                 } else {
 
                     //if date not enter
-                    Log.e(TAG, "Title : " + finalTitle)
-                    Log.e(TAG, "Task : " + finalTask)
-                    Log.e(TAG, "Category : " + finalCategoryName)
+                    Log.e(TAG, "Title : " + finalTitle + "Task : " + finalTask +
+                            "Category : " + finalCategoryName)
+
+                    dbManager.insert(finalTitle, finalTask, finalCategoryName)
+                    setResult(Activity.RESULT_OK)
+                    finish()
+
                 }
 
             } else {
@@ -178,7 +193,7 @@ class AddTaskActivity : AppCompatActivity(), View.OnClickListener, CategoryAdd, 
             labels = arrayList
         }
 
-        var dataAdapter = ArrayAdapter<String>(mActivity, android.R.layout.simple_spinner_item, labels)
+        val dataAdapter = ArrayAdapter<String>(mActivity, android.R.layout.simple_spinner_item, labels)
 
         dataAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
 
@@ -325,26 +340,6 @@ class AddTaskActivity : AppCompatActivity(), View.OnClickListener, CategoryAdd, 
         if (isAdded) {
             loadDataInSpinner()
         }
-    }
-
-
-}
-
-class onItemSelectedListener(categoryName: CategoryName) : AdapterView.OnItemSelectedListener {
-
-    val categoryName: CategoryName = categoryName
-
-    override fun onNothingSelected(p0: AdapterView<*>?) {
-
-    }
-
-    override fun onItemSelected(parent: AdapterView<*>?, view: View?, pos: Int, id: Long) {
-        val catName = parent!!.getItemAtPosition(pos).toString()
-        categoryName.spinnerCatName(catName)
-    }
-
-    interface CategoryName {
-        fun spinnerCatName(categoryName: String)
     }
 
 }
