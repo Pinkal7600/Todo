@@ -39,6 +39,7 @@ class DBManagerTask(val context: Context) {
         contentValues.put(TASK_CATEGORY, category)
         contentValues.put(TASK_DATE, date)
         contentValues.put(TASK_TIME, time)
+        contentValues.put(TASK_FINISH, TASK_IS_NOT_FINISH)
 
 
         database!!.insert(TABLE_TASK, null, contentValues)
@@ -86,22 +87,87 @@ class DBManagerTask(val context: Context) {
 
         if (cursor != null && cursor.moveToFirst()) {
             do {
-                val taskModel = TaskModel()
 
-                taskModel.id = Integer.parseInt(cursor.getString(cursor.getColumnIndex(ID)))
-                taskModel.title = cursor.getString(cursor.getColumnIndex(TASK_TITLE))
-                taskModel.task = cursor.getString(cursor.getColumnIndex(TASK_TASK))
-                taskModel.category = cursor.getString(cursor.getColumnIndex(TASK_CATEGORY))
-                taskModel.date = cursor.getString(cursor.getColumnIndex(TASK_DATE))
-                taskModel.time = cursor.getString(cursor.getColumnIndex(TASK_TIME))
+                val isFinish = Integer.parseInt(cursor.getString(cursor.getColumnIndex(TASK_FINISH)))
 
-                arrayList.add(taskModel)
+                if (isFinish == TASK_IS_NOT_FINISH) {
+
+                    val taskModel = TaskModel()
+
+                    taskModel.id = Integer.parseInt(cursor.getString(cursor.getColumnIndex(ID)))
+                    taskModel.title = cursor.getString(cursor.getColumnIndex(TASK_TITLE))
+                    taskModel.task = cursor.getString(cursor.getColumnIndex(TASK_TASK))
+                    taskModel.category = cursor.getString(cursor.getColumnIndex(TASK_CATEGORY))
+                    taskModel.date = cursor.getString(cursor.getColumnIndex(TASK_DATE))
+                    taskModel.time = cursor.getString(cursor.getColumnIndex(TASK_TIME))
+
+                    arrayList.add(taskModel)
+
+                }
 
             } while (cursor.moveToNext())
         }
         cursor.close()
         close()
         return arrayList
+    }
+
+    /**
+     * Finish task
+     * */
+    fun finishTask(id: Int) {
+        open()
+        val contentValues = ContentValues()
+
+        contentValues.put(TASK_FINISH, TASK_IS_FINISH)
+
+        database!!.update(TABLE_TASK, contentValues, ID + " = " + id, null)
+        close()
+    }
+
+    fun getHistoryTaskList(): java.util.ArrayList<TaskModel> {
+        open()
+
+        val arrayList = ArrayList<TaskModel>()
+
+        val query = "SELECT * FROM " + TABLE_TASK
+        val cursor = database!!.rawQuery(query, null)
+
+        if (cursor != null && cursor.moveToFirst()) {
+            do {
+
+                val isFinish = Integer.parseInt(cursor.getString(cursor.getColumnIndex(TASK_FINISH)))
+
+                if (isFinish == TASK_IS_FINISH) {
+
+                    val taskModel = TaskModel()
+
+                    taskModel.id = Integer.parseInt(cursor.getString(cursor.getColumnIndex(ID)))
+                    taskModel.title = cursor.getString(cursor.getColumnIndex(TASK_TITLE))
+                    taskModel.task = cursor.getString(cursor.getColumnIndex(TASK_TASK))
+                    taskModel.category = cursor.getString(cursor.getColumnIndex(TASK_CATEGORY))
+                    taskModel.date = cursor.getString(cursor.getColumnIndex(TASK_DATE))
+                    taskModel.time = cursor.getString(cursor.getColumnIndex(TASK_TIME))
+
+                    arrayList.add(taskModel)
+
+                }
+
+            } while (cursor.moveToNext())
+        }
+        cursor.close()
+        close()
+        return arrayList
+    }
+
+    fun unFinishTask(id: Int) {
+        open()
+        val contentValues = ContentValues()
+
+        contentValues.put(TASK_FINISH, TASK_IS_NOT_FINISH)
+
+        database!!.update(TABLE_TASK, contentValues, ID + " = " + id, null)
+        close()
     }
 
 

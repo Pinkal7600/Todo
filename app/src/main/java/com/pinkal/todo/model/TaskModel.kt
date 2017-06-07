@@ -11,5 +11,6 @@ class TaskModel {
     var category: String? = null
     var date: String? = null
     var time: String? = null
+    var finish: String? = null
 
 }

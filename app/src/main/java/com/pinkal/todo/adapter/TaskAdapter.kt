@@ -69,8 +69,16 @@ class TaskAdapter(val mContext: Context, var mArrayList: ArrayList<TaskModel>) :
     }
 
     fun finishTask(position: Int) {
-//        mArrayList.removeAt(position)
-//        notifyItemRemoved(position)
+        dbManager.finishTask(mArrayList[position].id!!)
+        mArrayList.removeAt(position)
+        notifyItemRemoved(position)
+        notifyItemRangeChanged(position, mArrayList.size)
+    }
+
+    fun unFinishTask(position: Int) {
+        dbManager.unFinishTask(mArrayList[position].id!!)
+        mArrayList.removeAt(position)
+        notifyItemRemoved(position)
         notifyItemRangeChanged(position, mArrayList.size)
     }
 
@@ -78,6 +86,7 @@ class TaskAdapter(val mContext: Context, var mArrayList: ArrayList<TaskModel>) :
         val viewColorTag = view.findViewById(R.id.viewColorTag) as View
         val txtShowTitle = view.findViewById(R.id.txtShowTitle) as TextView
         val txtShowTask = view.findViewById(R.id.txtShowTask) as TextView
+
         val txtShowCategory = view.findViewById(R.id.txtShowCategory) as TextView
 
     }

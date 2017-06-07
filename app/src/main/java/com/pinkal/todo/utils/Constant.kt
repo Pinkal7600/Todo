@@ -30,6 +30,10 @@ val TASK_TASK = "task"
 val TASK_CATEGORY = "category"
 val TASK_DATE = "date"
 val TASK_TIME = "time"
+val TASK_FINISH = "finish"
+
+val TASK_IS_FINISH = 1
+val TASK_IS_NOT_FINISH = 0
 
 
 /************* onActivityResult *****************/

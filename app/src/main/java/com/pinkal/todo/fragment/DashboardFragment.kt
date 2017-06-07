@@ -84,6 +84,7 @@ class DashboardFragment : Fragment(), View.OnClickListener {
 
     override fun onResume() {
         super.onResume()
+        isTaskListEmpty()
     }
 
     override fun onClick(view: View?) {
@@ -121,8 +122,10 @@ class DashboardFragment : Fragment(), View.OnClickListener {
 
                 if (direction == ItemTouchHelper.LEFT) {
                     taskAdapter!!.deleteTask(position)
+                    isTaskListEmpty()
                 } else {
                     taskAdapter!!.finishTask(position)
+                    isTaskListEmpty()
                 }
             }
 
@@ -156,6 +159,14 @@ class DashboardFragment : Fragment(), View.OnClickListener {
         }
         val itemTouchHelper = ItemTouchHelper(simpleItemTouchCallback)
         itemTouchHelper.attachToRecyclerView(recyclerView)
+    }
+
+    fun isTaskListEmpty() {
+        if (taskAdapter!!.itemCount == 0) {
+            txtNoTask!!.visibility = View.VISIBLE
+        } else {
+            txtNoTask!!.visibility = View.GONE
+        }
     }
 
 }

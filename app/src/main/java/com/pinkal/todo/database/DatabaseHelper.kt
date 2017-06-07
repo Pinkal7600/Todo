@@ -31,7 +31,8 @@ class DatabaseHelper(context: Context) : SQLiteOpenHelper(context, DB_NAME, null
                     TASK_TASK + " TEXT, " +
                     TASK_CATEGORY + " TEXT, " +
                     TASK_DATE + " TEXT, " +
-                    TASK_TIME + " TEXT); "
+                    TASK_TIME + " TEXT, " +
+                    TASK_FINISH + " TEXT); "
 
     private val DROP_TASK_TABLE = "DROP TABLE IF EXISTS " + TABLE_TASK
 
