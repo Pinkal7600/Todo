@@ -26,7 +26,7 @@ class CategoryAdapter(val mContext: Context, mArrayList: ArrayList<CategoryModel
 
     var mArrayList: ArrayList<CategoryModel> = ArrayList()
 
-    var inflater: LayoutInflater? = null
+    var inflater: LayoutInflater
     var isEmpty: CategoryIsEmpty = categoryIsEmpty
 
     init {

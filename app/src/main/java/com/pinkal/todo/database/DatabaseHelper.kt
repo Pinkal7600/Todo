@@ -15,6 +15,7 @@ class DatabaseHelper(context: Context) : SQLiteOpenHelper(context, DB_NAME, null
 
     /**************** Category ****************/
 
+
     private val CREATE_CATEGORY_TABLE =
             "CREATE TABLE IF NOT EXISTS " + TABLE_CATEGORY + "(" +
                     ID + " INTEGER PRIMARY KEY AUTOINCREMENT, " +
@@ -64,7 +65,7 @@ class DatabaseHelper(context: Context) : SQLiteOpenHelper(context, DB_NAME, null
 
     override fun onUpgrade(db: SQLiteDatabase?, oldVersion: Int, newVersion: Int) {
         db!!.execSQL(DROP_CATEGORY_TABLE)
-        db!!.execSQL(DROP_TASK_TABLE)
+        db.execSQL(DROP_TASK_TABLE)
         onCreate(db)
     }
 }

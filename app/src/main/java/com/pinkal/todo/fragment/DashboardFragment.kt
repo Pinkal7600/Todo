@@ -31,13 +31,13 @@ class DashboardFragment : Fragment(), View.OnClickListener {
 
     val TAG: String = DashboardFragment::class.java.simpleName
 
-    var fab: FloatingActionButton? = null
-    var txtNoTask: TextView? = null
-    var recyclerView: RecyclerView? = null
+    lateinit var fab: FloatingActionButton
+    lateinit var txtNoTask: TextView
+    lateinit var recyclerView: RecyclerView
 
     var mArrayList: ArrayList<TaskModel> = ArrayList()
-    var dbManager: DBManagerTask? = null
-    var taskAdapter: TaskAdapter? = null
+    lateinit var dbManager: DBManagerTask
+    lateinit var taskAdapter: TaskAdapter
 
     private val paint = Paint()
 
@@ -55,20 +55,20 @@ class DashboardFragment : Fragment(), View.OnClickListener {
         fab = view.findViewById(R.id.fabAddTask) as FloatingActionButton
         txtNoTask = view.findViewById(R.id.txtNoTask) as TextView
         recyclerView = view.findViewById(R.id.rvTask) as RecyclerView
-        recyclerView!!.setHasFixedSize(true)
-        recyclerView!!.layoutManager = LinearLayoutManager(activity!!) as RecyclerView.LayoutManager
+        recyclerView.setHasFixedSize(true)
+        recyclerView.layoutManager = LinearLayoutManager(activity!!) as RecyclerView.LayoutManager
 
-        fab!!.setOnClickListener(this)
+        fab.setOnClickListener(this)
 
         dbManager = DBManagerTask(activity)
-        mArrayList = dbManager!!.getTaskList()
+        mArrayList = dbManager.getTaskList()
 
         taskAdapter = TaskAdapter(activity, mArrayList)
-        recyclerView!!.adapter = taskAdapter
+        recyclerView.adapter = taskAdapter
 
         initSwipe()
 
-        recyclerView!!.addOnItemTouchListener(
+        recyclerView.addOnItemTouchListener(
                 RecyclerItemClickListener(context, recyclerView, object : RecyclerItemClickListener.OnItemClickListener {
                     override fun onItemClick(view: View, position: Int) {
                         // do whatever
@@ -101,9 +101,9 @@ class DashboardFragment : Fragment(), View.OnClickListener {
         if (resultCode == Activity.RESULT_OK) {
             when (requestCode) {
                 DASHBOARD_RECYCLEVIEW_REFRESH -> {
-                    mArrayList = dbManager!!.getTaskList()
-                    taskAdapter!!.clearAdapter()
-                    taskAdapter!!.setList(mArrayList)
+                    mArrayList = dbManager.getTaskList()
+                    taskAdapter.clearAdapter()
+                    taskAdapter.setList(mArrayList)
                 }
             }
         }
@@ -121,10 +121,10 @@ class DashboardFragment : Fragment(), View.OnClickListener {
                 val position = viewHolder.adapterPosition
 
                 if (direction == ItemTouchHelper.LEFT) {
-                    taskAdapter!!.deleteTask(position)
+                    taskAdapter.deleteTask(position)
                     isTaskListEmpty()
                 } else {
-                    taskAdapter!!.finishTask(position)
+                    taskAdapter.finishTask(position)
                     isTaskListEmpty()
                 }
             }
@@ -139,14 +139,14 @@ class DashboardFragment : Fragment(), View.OnClickListener {
                     val width = height / 3
 
                     if (dX > 0) {
-                        paint.color = Color.parseColor("#388E3C")
+                        paint.color = Color.parseColor(getString(R.color.green))
                         val background = RectF(itemView.left.toFloat(), itemView.top.toFloat(), itemView.left.toFloat() + dX, itemView.bottom.toFloat())
                         c.drawRect(background, paint)
                         icon = BitmapFactory.decodeResource(resources, R.mipmap.ic_check_white_png)
                         val icon_dest = RectF(itemView.left.toFloat() + width, itemView.top.toFloat() + width, itemView.left.toFloat() + 2 * width, itemView.bottom.toFloat() - width)
                         c.drawBitmap(icon, null, icon_dest, paint)
                     } else {
-                        paint.color = Color.parseColor("#D32F2F")
+                        paint.color = Color.parseColor(getString(R.color.red))
                         val background = RectF(itemView.right.toFloat() + dX, itemView.top.toFloat(), itemView.right.toFloat(), itemView.bottom.toFloat())
                         c.drawRect(background, paint)
                         icon = BitmapFactory.decodeResource(resources, R.mipmap.ic_delete_white_png)
@@ -162,10 +162,10 @@ class DashboardFragment : Fragment(), View.OnClickListener {
     }
 
     fun isTaskListEmpty() {
-        if (taskAdapter!!.itemCount == 0) {
-            txtNoTask!!.visibility = View.VISIBLE
+        if (taskAdapter.itemCount == 0) {
+            txtNoTask.visibility = View.VISIBLE
         } else {
-            txtNoTask!!.visibility = View.GONE
+            txtNoTask.visibility = View.GONE
         }
     }
 

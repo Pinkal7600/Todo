@@ -13,18 +13,18 @@ import com.pinkal.todo.utils.*
  */
 class DBManagerTask(val context: Context) {
 
-    var dbHelper: DatabaseHelper? = null
-    var database: SQLiteDatabase? = null
+    lateinit var dbHelper: DatabaseHelper
+    lateinit var database: SQLiteDatabase
 
     @Throws(SQLException::class)
     fun open(): DBManagerTask {
         dbHelper = DatabaseHelper(context)
-        database = dbHelper!!.writableDatabase
+        database = dbHelper.writableDatabase
         return this
     }
 
     fun close() {
-        dbHelper!!.close()
+        dbHelper.close()
     }
 
     /**
@@ -42,7 +42,7 @@ class DBManagerTask(val context: Context) {
         contentValues.put(TASK_FINISH, TASK_IS_NOT_FINISH)
 
 
-        database!!.insert(TABLE_TASK, null, contentValues)
+        database.insert(TABLE_TASK, null, contentValues)
         close()
     }
 
@@ -60,7 +60,7 @@ class DBManagerTask(val context: Context) {
         contentValues.put(TASK_DATE, date)
         contentValues.put(TASK_TIME, time)
 
-        database!!.update(TABLE_TASK, contentValues, ID + " = " + id, null)
+        database.update(TABLE_TASK, contentValues, ID + " = " + id, null)
         close()
     }
 
@@ -69,7 +69,7 @@ class DBManagerTask(val context: Context) {
      */
     fun delete(id: Int) {
         open()
-        database!!.delete(TABLE_TASK, ID + "=" + id, null)
+        database.delete(TABLE_TASK, ID + "=" + id, null)
         close()
     }
 
@@ -83,7 +83,7 @@ class DBManagerTask(val context: Context) {
         val arrayList = ArrayList<TaskModel>()
 
         val query = "SELECT * FROM " + TABLE_TASK
-        val cursor = database!!.rawQuery(query, null)
+        val cursor = database.rawQuery(query, null)
 
         if (cursor != null && cursor.moveToFirst()) {
             do {
@@ -121,7 +121,7 @@ class DBManagerTask(val context: Context) {
 
         contentValues.put(TASK_FINISH, TASK_IS_FINISH)
 
-        database!!.update(TABLE_TASK, contentValues, ID + " = " + id, null)
+        database.update(TABLE_TASK, contentValues, ID + " = " + id, null)
         close()
     }
 
@@ -131,7 +131,7 @@ class DBManagerTask(val context: Context) {
         val arrayList = ArrayList<TaskModel>()
 
         val query = "SELECT * FROM " + TABLE_TASK
-        val cursor = database!!.rawQuery(query, null)
+        val cursor = database.rawQuery(query, null)
 
         if (cursor != null && cursor.moveToFirst()) {
             do {
@@ -166,7 +166,7 @@ class DBManagerTask(val context: Context) {
 
         contentValues.put(TASK_FINISH, TASK_IS_NOT_FINISH)
 
-        database!!.update(TABLE_TASK, contentValues, ID + " = " + id, null)
+        database.update(TABLE_TASK, contentValues, ID + " = " + id, null)
         close()
     }
 

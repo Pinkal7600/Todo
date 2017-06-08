@@ -41,6 +41,9 @@
     <string name="no_category_to_display">No category to display</string>
     <string name="no_task_to_show">No task to show</string>
     <string name="no_history_to_show">No History to show</string>
+    <string name="do_you_want_to_save_this_task">Do you want to save this task?</string>
+    <string name="save_task">Save task!</string>
+    <string name="save">SAVE</string>
 
 
 </resources>

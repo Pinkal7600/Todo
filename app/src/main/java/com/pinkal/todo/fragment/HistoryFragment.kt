@@ -25,17 +25,17 @@ class HistoryFragment : Fragment() {
 
     val TAG: String = HistoryFragment::class.java.simpleName
 
-    var txtNoHistory: TextView? = null
-    var recyclerView: RecyclerView? = null
+    lateinit var txtNoHistory: TextView
+    lateinit var recyclerView: RecyclerView
 
     var mArrayList: ArrayList<TaskModel> = ArrayList()
-    var dbManager: DBManagerTask? = null
-    var taskAdapter: TaskAdapter? = null
+    lateinit var dbManager: DBManagerTask
+    lateinit var taskAdapter: TaskAdapter
 
     private val paint = Paint()
 
     override fun onCreateView(inflater: LayoutInflater?, container: ViewGroup?, savedInstanceState: Bundle?): View? {
-        var view = inflater!!.inflate(R.layout.fragment_history, container, false)
+        val view = inflater!!.inflate(R.layout.fragment_history, container, false)
 
         initialize(view)
 
@@ -50,18 +50,18 @@ class HistoryFragment : Fragment() {
     private fun initialize(view: View) {
         txtNoHistory = view.findViewById(R.id.txtNoHistory) as TextView
         recyclerView = view.findViewById(R.id.rvHistory) as RecyclerView
-        recyclerView!!.setHasFixedSize(true)
-        recyclerView!!.layoutManager = LinearLayoutManager(activity!!) as RecyclerView.LayoutManager
+        recyclerView.setHasFixedSize(true)
+        recyclerView.layoutManager = LinearLayoutManager(activity!!) as RecyclerView.LayoutManager
 
         dbManager = DBManagerTask(activity)
-        mArrayList = dbManager!!.getHistoryTaskList()
+        mArrayList = dbManager.getHistoryTaskList()
 
         taskAdapter = TaskAdapter(activity, mArrayList)
-        recyclerView!!.adapter = taskAdapter
+        recyclerView.adapter = taskAdapter
 
         initSwipe()
 
-        recyclerView!!.addOnItemTouchListener(
+        recyclerView.addOnItemTouchListener(
                 RecyclerItemClickListener(context, recyclerView, object : RecyclerItemClickListener.OnItemClickListener {
                     override fun onItemClick(view: View, position: Int) {
                         // do whatever
@@ -89,10 +89,10 @@ class HistoryFragment : Fragment() {
                 val position = viewHolder.adapterPosition
 
                 if (direction == ItemTouchHelper.LEFT) {
-                    taskAdapter!!.deleteTask(position)
+                    taskAdapter.deleteTask(position)
                     isTaskListEmpty()
                 } else {
-                    taskAdapter!!.unFinishTask(position)
+                    taskAdapter.unFinishTask(position)
                     isTaskListEmpty()
                 }
             }
@@ -107,14 +107,14 @@ class HistoryFragment : Fragment() {
                     val width = height / 3
 
                     if (dX > 0) {
-                        paint.color = Color.parseColor("#388E3C")
+                        paint.color = Color.parseColor(getString(R.color.green))
                         val background = RectF(itemView.left.toFloat(), itemView.top.toFloat(), itemView.left.toFloat() + dX, itemView.bottom.toFloat())
                         c.drawRect(background, paint)
                         icon = BitmapFactory.decodeResource(resources, R.mipmap.ic_unfinish)
                         val icon_dest = RectF(itemView.left.toFloat() + width, itemView.top.toFloat() + width, itemView.left.toFloat() + 2 * width, itemView.bottom.toFloat() - width)
                         c.drawBitmap(icon, null, icon_dest, paint)
                     } else {
-                        paint.color = Color.parseColor("#D32F2F")
+                        paint.color = Color.parseColor(getString(R.color.red))
                         val background = RectF(itemView.right.toFloat() + dX, itemView.top.toFloat(), itemView.right.toFloat(), itemView.bottom.toFloat())
                         c.drawRect(background, paint)
                         icon = BitmapFactory.decodeResource(resources, R.mipmap.ic_delete_white_png)
@@ -130,10 +130,10 @@ class HistoryFragment : Fragment() {
     }
 
     fun isTaskListEmpty() {
-        if (taskAdapter!!.itemCount == 0) {
-            txtNoHistory!!.visibility = View.VISIBLE
+        if (taskAdapter.itemCount == 0) {
+            txtNoHistory.visibility = View.VISIBLE
         } else {
-            txtNoHistory!!.visibility = View.GONE
+            txtNoHistory.visibility = View.GONE
         }
     }
 }

@@ -15,7 +15,7 @@ class SettingActivity : AppCompatActivity() {
 
     val mActivity: Activity = this@SettingActivity
 
-    var toolbar: Toolbar? = null
+    lateinit var toolbar: Toolbar
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -37,7 +37,7 @@ class SettingActivity : AppCompatActivity() {
     }
 
     /**
-     * back arrow button in actionbar click
+     * action bar back button click
      * */
     override fun onSupportNavigateUp(): Boolean {
         onBackPressed()

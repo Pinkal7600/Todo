@@ -6,9 +6,8 @@ import android.widget.AdapterView
 /**
  * Created by Pinkal on 30/5/17.
  */
-class onItemSelectedListener(categoryName: CategoryName) : AdapterView.OnItemSelectedListener {
+class onItemSelectedListener(val categoryName: CategoryName) : AdapterView.OnItemSelectedListener {
 
-    val categoryName: CategoryName = categoryName
 
     override fun onNothingSelected(p0: AdapterView<*>?) {
 

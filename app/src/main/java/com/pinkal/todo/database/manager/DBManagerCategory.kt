@@ -15,18 +15,18 @@ import com.pinkal.todo.utils.TABLE_CATEGORY
  */
 class DBManagerCategory(val context: Context) {
 
-    var dbHelper: DatabaseHelper? = null
-    var database: SQLiteDatabase? = null
+    lateinit var dbHelper: DatabaseHelper
+    lateinit var database: SQLiteDatabase
 
     @Throws(SQLException::class)
     fun open(): DBManagerCategory {
         dbHelper = DatabaseHelper(context)
-        database = dbHelper!!.writableDatabase
+        database = dbHelper.writableDatabase
         return this
     }
 
     fun close() {
-        dbHelper!!.close()
+        dbHelper.close()
     }
 
     /**
@@ -38,7 +38,7 @@ class DBManagerCategory(val context: Context) {
         val contentValues = ContentValues()
         contentValues.put(CATEGORY_NAME, category)
 
-        database!!.insert(TABLE_CATEGORY, null, contentValues)
+        database.insert(TABLE_CATEGORY, null, contentValues)
 
         close()
     }
@@ -52,7 +52,7 @@ class DBManagerCategory(val context: Context) {
 
         contentValue.put(CATEGORY_NAME, categoryName)
 
-        database!!.update(TABLE_CATEGORY, contentValue, ID + " = " + id, null)
+        database.update(TABLE_CATEGORY, contentValue, ID + " = " + id, null)
         close()
     }
 
@@ -61,7 +61,7 @@ class DBManagerCategory(val context: Context) {
      */
     fun delete(id: Int) {
         open()
-        database!!.delete(TABLE_CATEGORY, ID + "=" + id, null)
+        database.delete(TABLE_CATEGORY, ID + "=" + id, null)
         close()
     }
 
@@ -76,7 +76,7 @@ class DBManagerCategory(val context: Context) {
         val query = "SELECT * FROM " + TABLE_CATEGORY +
                 " WHERE " + ID + "=" + id
 
-        val cursor = database!!.rawQuery(query, null)
+        val cursor = database.rawQuery(query, null)
 
         if (cursor.moveToFirst()) {
             do {
@@ -97,7 +97,7 @@ class DBManagerCategory(val context: Context) {
         open()
 
         val query = "SELECT * FROM " + TABLE_CATEGORY
-        val cursor = database!!.rawQuery(query, null)
+        val cursor = database.rawQuery(query, null)
 
         if (cursor != null && cursor.moveToFirst()) {
             do {
@@ -118,10 +118,10 @@ class DBManagerCategory(val context: Context) {
     fun getListOfCategory(): List<String> {
         open()
 
-        var labels: ArrayList<String> = ArrayList()
+        val labels: ArrayList<String> = ArrayList()
 
         val query = "SELECT * FROM " + TABLE_CATEGORY
-        val cursor = database!!.rawQuery(query, null)
+        val cursor = database.rawQuery(query, null)
 
         if (cursor != null && cursor.moveToFirst()) {
             do {

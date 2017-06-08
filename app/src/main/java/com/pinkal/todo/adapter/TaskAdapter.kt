@@ -83,7 +83,7 @@ class TaskAdapter(val mContext: Context, var mArrayList: ArrayList<TaskModel>) :
     }
 
     class ViewHolder(view: View) : RecyclerView.ViewHolder(view) {
-        val viewColorTag = view.findViewById(R.id.viewColorTag) as View
+        val viewColorTag = view.findViewById(R.id.viewColorTag)!!
         val txtShowTitle = view.findViewById(R.id.txtShowTitle) as TextView
         val txtShowTask = view.findViewById(R.id.txtShowTask) as TextView
 

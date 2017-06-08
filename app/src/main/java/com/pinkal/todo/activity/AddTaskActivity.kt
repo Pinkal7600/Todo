@@ -1,6 +1,7 @@
 package com.pinkal.todo.activity
 
 import android.app.Activity
+import android.app.AlertDialog
 import android.app.DatePickerDialog
 import android.app.TimePickerDialog
 import android.os.Bundle
@@ -32,30 +33,29 @@ class AddTaskActivity : AppCompatActivity(), View.OnClickListener, CategoryAdd, 
 
     val mActivity: Activity = this@AddTaskActivity
 
-    var toolbar: Toolbar? = null
+    lateinit var toolbar: Toolbar
+    lateinit var edtTitle: EditText
+    lateinit var edtTask: EditText
+    lateinit var edtSetDate: EditText
+    lateinit var edtSetTime: EditText
+    lateinit var spinnerCategory: Spinner
+    lateinit var imgAddCategory: ImageView
+    lateinit var imgCancelDate: ImageView
+    lateinit var imgCancelTime: ImageView
+    lateinit var relativeLayoutTime: RelativeLayout
 
-    var edtTitle: EditText? = null
+    lateinit var myCalendar: Calendar
 
-    var edtTask: EditText? = null
-    var edtSetDate: EditText? = null
-    var edtSetTime: EditText? = null
-    var spinnerCategory: Spinner? = null
-    var imgAddCategory: ImageView? = null
-    var imgCancelDate: ImageView? = null
-    var imgCancelTime: ImageView? = null
-    var relativeLayoutTime: RelativeLayout? = null
+    lateinit var dateSetListener: DatePickerDialog.OnDateSetListener
+    lateinit var timeSetListener: TimePickerDialog.OnTimeSetListener
 
-    private var myCalendar: Calendar? = null
-
-    private var dateSetListener: DatePickerDialog.OnDateSetListener? = null
-    private var timeSetListener: TimePickerDialog.OnTimeSetListener? = null
     //Final variable to save in database
     private var finalDate = ""
-
     private var finalTime = ""
     private var finalTitle = ""
     private var finalTask = ""
     private var finalCategoryName = ""
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_add_task)
@@ -90,17 +90,23 @@ class AddTaskActivity : AppCompatActivity(), View.OnClickListener, CategoryAdd, 
         /**
          * click listener
          * */
-        edtSetDate!!.setOnClickListener(this)
-        edtSetTime!!.setOnClickListener(this)
-        imgCancelDate!!.setOnClickListener(this)
-        imgCancelTime!!.setOnClickListener(this)
-        imgAddCategory!!.setOnClickListener(this)
+        edtSetDate.setOnClickListener(this)
+        edtSetTime.setOnClickListener(this)
+        imgCancelDate.setOnClickListener(this)
+        imgCancelTime.setOnClickListener(this)
+        imgAddCategory.setOnClickListener(this)
 
+        /**
+         * load category in spinner
+         * */
         loadDataInSpinner()
     }
 
+    /**
+     * action bar back button click
+     * */
     override fun onSupportNavigateUp(): Boolean {
-        onBackPressed()
+        checkTask()
         return super.onSupportNavigateUp()
     }
 
@@ -128,13 +134,49 @@ class AddTaskActivity : AppCompatActivity(), View.OnClickListener, CategoryAdd, 
         return super.onOptionsItemSelected(item)
     }
 
+    override fun onBackPressed() {
+        checkTask()
+    }
+
+    /**
+     * on leaving this screen this method will check
+     * weather user have enter any task or not If YES
+     * it will show dialog else finish()
+     * */
+    private fun checkTask() {
+
+        finalTitle = edtTitle.text.toString().trim()
+        finalTask = edtTask.text.toString().trim()
+
+        if (finalTitle != "" && finalTask != "") {
+            val alertDialog: AlertDialog.Builder = AlertDialog.Builder(mActivity)
+
+            alertDialog.setTitle(getString(R.string.save_task))
+            alertDialog.setMessage(getString(R.string.do_you_want_to_save_this_task))
+
+            alertDialog.setPositiveButton(R.string.save, { _, _ ->
+                addTask()
+            })
+
+            alertDialog.setNegativeButton(R.string.cancel, { _, _ ->
+                finish()
+            })
+
+            val alert: AlertDialog = alertDialog.create()
+            alert.show()
+        } else {
+            finish()
+        }
+
+    }
+
     /**
      * Add Task in database
      * */
     private fun addTask() {
 
-        finalTitle = edtTitle!!.text.toString().trim()
-        finalTask = edtTask!!.text.toString().trim()
+        finalTitle = edtTitle.text.toString().trim()
+        finalTask = edtTask.text.toString().trim()
 
         val dbManager = DBManagerTask(mActivity)
 
@@ -182,6 +224,9 @@ class AddTaskActivity : AppCompatActivity(), View.OnClickListener, CategoryAdd, 
         }
     }
 
+    /**
+     * load category in spinner
+     * */
     private fun loadDataInSpinner() {
 
         val dbManager = DBManagerCategory(mActivity)
@@ -199,9 +244,9 @@ class AddTaskActivity : AppCompatActivity(), View.OnClickListener, CategoryAdd, 
 
         Collections.sort(labels)
 
-        spinnerCategory!!.adapter = dataAdapter
+        spinnerCategory.adapter = dataAdapter
 
-        spinnerCategory!!.onItemSelectedListener = onItemSelectedListener(this)
+        spinnerCategory.onItemSelectedListener = onItemSelectedListener(this)
     }
 
     override fun spinnerCatName(categoryName: String) {
@@ -227,26 +272,21 @@ class AddTaskActivity : AppCompatActivity(), View.OnClickListener, CategoryAdd, 
                 setTime()
             }
             R.id.imgCancelDate -> {
-                if (edtSetDate != null) {
-                    edtSetDate!!.setText("")
-                    finalDate = ""
-                    imgCancelDate!!.visibility = View.GONE
-                    if (relativeLayoutTime!!.visibility == View.VISIBLE) {
-                        relativeLayoutTime!!.visibility = View.GONE
-                        if (edtSetTime != null) {
-                            edtSetTime!!.setText("")
-                            finalTime = ""
-                            imgCancelTime!!.visibility = View.GONE
-                        }
-                    }
+                edtSetDate.setText("")
+                finalDate = ""
+                imgCancelDate.visibility = View.GONE
+                if (relativeLayoutTime.visibility == View.VISIBLE) {
+                    relativeLayoutTime.visibility = View.GONE
+                    edtSetTime.setText("")
+                    finalTime = ""
+                    imgCancelTime.visibility = View.GONE
                 }
+
             }
             R.id.imgCancelTime -> {
-                if (edtSetTime != null) {
-                    edtSetTime!!.setText("")
-                    finalTime = ""
-                    imgCancelTime!!.visibility = View.GONE
-                }
+                edtSetTime.setText("")
+                finalTime = ""
+                imgCancelTime.visibility = View.GONE
             }
             R.id.imgAddCategory -> {
                 dialogAddCategory(mActivity, this)
@@ -262,15 +302,15 @@ class AddTaskActivity : AppCompatActivity(), View.OnClickListener, CategoryAdd, 
         myCalendar = Calendar.getInstance()
 
         dateSetListener = DatePickerDialog.OnDateSetListener { _, year, monthOfYear, dayOfMonth ->
-            myCalendar!!.set(Calendar.YEAR, year)
-            myCalendar!!.set(Calendar.MONTH, monthOfYear)
-            myCalendar!!.set(Calendar.DAY_OF_MONTH, dayOfMonth)
+            myCalendar.set(Calendar.YEAR, year)
+            myCalendar.set(Calendar.MONTH, monthOfYear)
+            myCalendar.set(Calendar.DAY_OF_MONTH, dayOfMonth)
             updateLabelDate()
         }
 
         timeSetListener = TimePickerDialog.OnTimeSetListener { _, hourOfDay, minute ->
-            myCalendar!!.set(Calendar.HOUR_OF_DAY, hourOfDay)
-            myCalendar!!.set(Calendar.MINUTE, minute)
+            myCalendar.set(Calendar.HOUR_OF_DAY, hourOfDay)
+            myCalendar.set(Calendar.MINUTE, minute)
             updateLabelTime()
         }
 
@@ -281,8 +321,8 @@ class AddTaskActivity : AppCompatActivity(), View.OnClickListener, CategoryAdd, 
      * */
     private fun setDate() {
 
-        val datePickerDialog = DatePickerDialog(this, dateSetListener, myCalendar!!.get(Calendar.YEAR),
-                myCalendar!!.get(Calendar.MONTH), myCalendar!!.get(Calendar.DAY_OF_MONTH))
+        val datePickerDialog = DatePickerDialog(this, dateSetListener, myCalendar.get(Calendar.YEAR),
+                myCalendar.get(Calendar.MONTH), myCalendar.get(Calendar.DAY_OF_MONTH))
         datePickerDialog.datePicker.minDate = System.currentTimeMillis() - 1000
         datePickerDialog.show()
 
@@ -293,8 +333,8 @@ class AddTaskActivity : AppCompatActivity(), View.OnClickListener, CategoryAdd, 
      * @TimePickerDialog for selecting time
      * */
     private fun setTime() {
-        val timePickerDialog = TimePickerDialog(this, timeSetListener, myCalendar!!.get(Calendar.HOUR_OF_DAY),
-                myCalendar!!.get(Calendar.MINUTE), false)
+        val timePickerDialog = TimePickerDialog(this, timeSetListener, myCalendar.get(Calendar.HOUR_OF_DAY),
+                myCalendar.get(Calendar.MINUTE), false)
         timePickerDialog.show()
     }
 
@@ -306,14 +346,14 @@ class AddTaskActivity : AppCompatActivity(), View.OnClickListener, CategoryAdd, 
         val myFormat = "HH:mm"  // HH:mm:ss
         val sdf = SimpleDateFormat(myFormat, Locale.US)
 
-        finalTime = sdf.format(myCalendar!!.time)
+        finalTime = sdf.format(myCalendar.time)
 
 
         val myFormat2 = "h:mm a"
         val sdf2 = SimpleDateFormat(myFormat2, Locale.US)
-        edtSetTime!!.setText(sdf2.format(myCalendar!!.time))
+        edtSetTime.setText(sdf2.format(myCalendar.time))
 
-        imgCancelTime!!.visibility = View.VISIBLE
+        imgCancelTime.visibility = View.VISIBLE
     }
 
 
@@ -325,15 +365,15 @@ class AddTaskActivity : AppCompatActivity(), View.OnClickListener, CategoryAdd, 
         val myFormat = "yyyy-MM-dd"
         val sdf = SimpleDateFormat(myFormat, Locale.US)
 
-        finalDate = sdf.format(myCalendar!!.time)
+        finalDate = sdf.format(myCalendar.time)
 
 
         val myFormat2 = "EEE, d MMM yyyy"
         val sdf2 = SimpleDateFormat(myFormat2, Locale.US)
-        edtSetDate!!.setText(sdf2.format(myCalendar!!.time))
+        edtSetDate.setText(sdf2.format(myCalendar.time))
 
-        relativeLayoutTime!!.visibility = View.VISIBLE
-        imgCancelDate!!.visibility = View.VISIBLE
+        relativeLayoutTime.visibility = View.VISIBLE
+        imgCancelDate.visibility = View.VISIBLE
     }
 
     override fun isCategoryAdded(isAdded: Boolean) {

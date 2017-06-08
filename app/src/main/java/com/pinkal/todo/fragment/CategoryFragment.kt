@@ -26,14 +26,14 @@ class CategoryFragment : Fragment(), View.OnClickListener, CategoryAdd, Category
 
     val TAG: String = CategoryFragment::class.java.simpleName
 
-    var fab: FloatingActionButton? = null
+    lateinit var fab: FloatingActionButton
 
-    var recyclerView: RecyclerView? = null
+    lateinit var recyclerView: RecyclerView
 
-    var txtNoCategory: TextView? = null
+    lateinit var txtNoCategory: TextView
     var mArrayList: ArrayList<CategoryModel> = ArrayList()
-    var categoryAdapter: CategoryAdapter? = null
-    
+    lateinit var categoryAdapter: CategoryAdapter
+
     override fun onCreateView(inflater: LayoutInflater?, container: ViewGroup?, savedInstanceState: Bundle?): View? {
 
         var view = inflater!!.inflate(R.layout.fragment_category, container, false)
@@ -50,15 +50,15 @@ class CategoryFragment : Fragment(), View.OnClickListener, CategoryAdd, Category
         txtNoCategory = view.findViewById(R.id.txtNoCategory) as TextView
         fab = view.findViewById(R.id.fabAddCategory) as FloatingActionButton
         recyclerView = view.findViewById(R.id.rvCategory) as RecyclerView
-        recyclerView!!.layoutManager = LinearLayoutManager(activity!!) as RecyclerView.LayoutManager
+        recyclerView.layoutManager = LinearLayoutManager(activity!!) as RecyclerView.LayoutManager
 
-        fab!!.setOnClickListener(this)
+        fab.setOnClickListener(this)
 
         val dbManageCategory = DBManagerCategory(activity)
         mArrayList = dbManageCategory.getCategoryList()
 
         categoryAdapter = CategoryAdapter(activity, mArrayList, this)
-        recyclerView!!.adapter = categoryAdapter
+        recyclerView.adapter = categoryAdapter
     }
 
     override fun onResume() {
@@ -92,16 +92,16 @@ class CategoryFragment : Fragment(), View.OnClickListener, CategoryAdd, Category
             val dbManageCategory = DBManagerCategory(activity)
             mArrayList = dbManageCategory.getCategoryList()
 
-            categoryAdapter!!.clearAdapter()
-            categoryAdapter!!.setList(mArrayList)
+            categoryAdapter.clearAdapter()
+            categoryAdapter.setList(mArrayList)
         }
     }
 
     override fun categoryIsEmpty(isEmpty: Boolean) {
         if (isEmpty) {
-            txtNoCategory!!.visibility = View.VISIBLE
+            txtNoCategory.visibility = View.VISIBLE
         } else {
-            txtNoCategory!!.visibility = View.GONE
+            txtNoCategory.visibility = View.GONE
         }
     }
 }

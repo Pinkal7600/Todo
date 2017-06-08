@@ -24,11 +24,11 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
 
     val mActivity: Activity = this@MainActivity
 
-    var toolbar: Toolbar? = null
-    var drawer: DrawerLayout? = null
-    var navigationView: NavigationView? = null
-    var framLayout: FrameLayout? = null
-    var handler: Handler? = null
+    lateinit var toolbar: Toolbar
+    lateinit var drawer: DrawerLayout
+    lateinit var navigationView: NavigationView
+    lateinit var framLayout: FrameLayout
+    lateinit var handler: Handler
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -55,12 +55,12 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
 
         val toggle = ActionBarDrawerToggle(
                 this, drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close)
-        drawer!!.setDrawerListener(toggle)
+        drawer.setDrawerListener(toggle)
         toggle.syncState()
 
         handler = Handler()
 
-        navigationView!!.setNavigationItemSelectedListener(this)
+        navigationView.setNavigationItemSelectedListener(this)
     }
 
     override fun onBackPressed() {
@@ -103,7 +103,7 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
          * @Handler
          * load fragment after delay of drawer close
          * */
-        handler!!.postDelayed({ navigate(item.itemId) }, 280)
+        handler.postDelayed({ navigate(item.itemId) }, 280)
 
         return true
     }
@@ -118,42 +118,39 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
         when (id) {
             R.id.nav_dashboard -> {
                 fragmentClass = DashboardFragment::class.java
-                toolbar!!.title = getString(R.string.dashboard)
+                toolbar.title = getString(R.string.dashboard)
             }
             R.id.nav_category -> {
                 fragmentClass = CategoryFragment::class.java
-                toolbar!!.title = getString(R.string.category)
+                toolbar.title = getString(R.string.category)
             }
             R.id.nav_history -> {
                 fragmentClass = HistoryFragment::class.java
-                toolbar!!.title = getString(R.string.history)
+                toolbar.title = getString(R.string.history)
             }
             R.id.nav_rate_us -> {
                 fragmentClass = RateUsFragment::class.java
-                toolbar!!.title = getString(R.string.rate_us)
+                toolbar.title = getString(R.string.rate_us)
             }
             R.id.nav_share_app -> {
                 fragmentClass = ShareAppFragment::class.java
-                toolbar!!.title = getString(R.string.share_app)
+                toolbar.title = getString(R.string.share_app)
             }
         }
 
-        drawer!!.closeDrawer(GravityCompat.START)
+        drawer.closeDrawer(GravityCompat.START)
 
         try {
             fragment = fragmentClass!!.newInstance() as Fragment
+
+            val fragmentManager = supportFragmentManager
+
+            fragmentManager
+                    .beginTransaction()
+                    .replace(R.id.framLayout, fragment).commit()
+
         } catch (e: Exception) {
             e.printStackTrace()
         }
-
-        val fragmentManager = supportFragmentManager
-        fragmentManager.beginTransaction().replace(R.id.framLayout, fragment).commit()
     }
-
-//    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent) {
-//        super.onActivityResult(requestCode, resultCode, data)
-//        for (fragment in supportFragmentManager.fragments) {
-//            fragment.onActivityResult(requestCode, resultCode, data)
-//        }
-//    }
 }
