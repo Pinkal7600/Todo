@@ -17,6 +17,7 @@ import com.pinkal.todo.adapter.CategoryAdapter
 import com.pinkal.todo.database.manager.DBManagerCategory
 import com.pinkal.todo.model.CategoryModel
 import com.pinkal.todo.utils.dialogAddCategory
+import kotlinx.android.synthetic.main.fragment_category.view.*
 import java.util.*
 
 /**
@@ -26,11 +27,10 @@ class CategoryFragment : Fragment(), View.OnClickListener, CategoryAdd, Category
 
     val TAG: String = CategoryFragment::class.java.simpleName
 
-    lateinit var fab: FloatingActionButton
-
-    lateinit var recyclerView: RecyclerView
-
+    lateinit var fabAddCategory: FloatingActionButton
+    lateinit var recyclerViewCategory: RecyclerView
     lateinit var txtNoCategory: TextView
+
     var mArrayList: ArrayList<CategoryModel> = ArrayList()
     lateinit var categoryAdapter: CategoryAdapter
 
@@ -47,18 +47,21 @@ class CategoryFragment : Fragment(), View.OnClickListener, CategoryAdd, Category
      * initializing views and data
      * */
     private fun initialize(view: View) {
-        txtNoCategory = view.findViewById(R.id.txtNoCategory) as TextView
-        fab = view.findViewById(R.id.fabAddCategory) as FloatingActionButton
-        recyclerView = view.findViewById(R.id.rvCategory) as RecyclerView
-        recyclerView.layoutManager = LinearLayoutManager(activity!!) as RecyclerView.LayoutManager
 
-        fab.setOnClickListener(this)
+        fabAddCategory = view.fabAddCategory
+        recyclerViewCategory = view.recyclerViewCategory
+        txtNoCategory = view.txtNoCategory
+
+        recyclerViewCategory.setHasFixedSize(true)
+        recyclerViewCategory.layoutManager = LinearLayoutManager(activity!!) as RecyclerView.LayoutManager
+
+        fabAddCategory.setOnClickListener(this)
 
         val dbManageCategory = DBManagerCategory(activity)
         mArrayList = dbManageCategory.getCategoryList()
 
         categoryAdapter = CategoryAdapter(activity, mArrayList, this)
-        recyclerView.adapter = categoryAdapter
+        recyclerViewCategory.adapter = categoryAdapter
     }
 
     override fun onResume() {

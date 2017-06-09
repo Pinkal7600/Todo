@@ -10,12 +10,13 @@ import android.support.v4.view.GravityCompat
 import android.support.v4.widget.DrawerLayout
 import android.support.v7.app.ActionBarDrawerToggle
 import android.support.v7.app.AppCompatActivity
-import android.support.v7.widget.Toolbar
 import android.view.Menu
 import android.view.MenuItem
-import android.widget.FrameLayout
 import com.pinkal.todo.R
 import com.pinkal.todo.fragment.*
+import com.pinkal.todo.utils.toastMessage
+import kotlinx.android.synthetic.main.activity_main.*
+import kotlinx.android.synthetic.main.app_bar_main.*
 
 
 class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelectedListener {
@@ -24,11 +25,8 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
 
     val mActivity: Activity = this@MainActivity
 
-    lateinit var toolbar: Toolbar
-    lateinit var drawer: DrawerLayout
-    lateinit var navigationView: NavigationView
-    lateinit var framLayout: FrameLayout
     lateinit var handler: Handler
+    var doubleBackToExitPressedOnce = false
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -46,21 +44,17 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
      * initializing views and data
      * */
     fun initialize() {
-        toolbar = findViewById(R.id.toolbarMain) as Toolbar
-        drawer = findViewById(R.id.drawer_layout) as DrawerLayout
-        navigationView = findViewById(R.id.nav_view) as NavigationView
-        framLayout = findViewById(R.id.framLayout) as FrameLayout
 
-        setSupportActionBar(toolbar)
+        setSupportActionBar(toolbarMain)
 
         val toggle = ActionBarDrawerToggle(
-                this, drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close)
-        drawer.setDrawerListener(toggle)
+                this, drawer_layout, toolbarMain, R.string.navigation_drawer_open, R.string.navigation_drawer_close)
+        drawer_layout.setDrawerListener(toggle)
         toggle.syncState()
 
         handler = Handler()
 
-        navigationView.setNavigationItemSelectedListener(this)
+        nav_view.setNavigationItemSelectedListener(this)
     }
 
     override fun onBackPressed() {
@@ -68,7 +62,15 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
         if (drawer.isDrawerOpen(GravityCompat.START)) {
             drawer.closeDrawer(GravityCompat.START)
         } else {
-            super.onBackPressed()
+            if (doubleBackToExitPressedOnce) {
+                super.onBackPressed()
+                return
+            }
+
+            this.doubleBackToExitPressedOnce = true
+            toastMessage(mActivity, getString(R.string.please_click_again_to_exit))
+
+            Handler().postDelayed({ doubleBackToExitPressedOnce = false }, 2000)
         }
     }
 
@@ -118,27 +120,27 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
         when (id) {
             R.id.nav_dashboard -> {
                 fragmentClass = DashboardFragment::class.java
-                toolbar.title = getString(R.string.dashboard)
+                toolbarMain.title = getString(R.string.dashboard)
             }
             R.id.nav_category -> {
                 fragmentClass = CategoryFragment::class.java
-                toolbar.title = getString(R.string.category)
+                toolbarMain.title = getString(R.string.category)
             }
             R.id.nav_history -> {
                 fragmentClass = HistoryFragment::class.java
-                toolbar.title = getString(R.string.history)
+                toolbarMain.title = getString(R.string.history)
             }
             R.id.nav_rate_us -> {
                 fragmentClass = RateUsFragment::class.java
-                toolbar.title = getString(R.string.rate_us)
+                toolbarMain.title = getString(R.string.rate_us)
             }
             R.id.nav_share_app -> {
                 fragmentClass = ShareAppFragment::class.java
-                toolbar.title = getString(R.string.share_app)
+                toolbarMain.title = getString(R.string.share_app)
             }
         }
 
-        drawer.closeDrawer(GravityCompat.START)
+        drawer_layout.closeDrawer(GravityCompat.START)
 
         try {
             fragment = fragmentClass!!.newInstance() as Fragment

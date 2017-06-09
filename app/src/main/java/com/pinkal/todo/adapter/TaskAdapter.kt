@@ -6,10 +6,10 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.TextView
 import com.pinkal.todo.R
 import com.pinkal.todo.database.manager.DBManagerTask
 import com.pinkal.todo.model.TaskModel
+import kotlinx.android.synthetic.main.row_task.view.*
 import java.util.*
 
 /**
@@ -83,11 +83,11 @@ class TaskAdapter(val mContext: Context, var mArrayList: ArrayList<TaskModel>) :
     }
 
     class ViewHolder(view: View) : RecyclerView.ViewHolder(view) {
-        val viewColorTag = view.findViewById(R.id.viewColorTag)!!
-        val txtShowTitle = view.findViewById(R.id.txtShowTitle) as TextView
-        val txtShowTask = view.findViewById(R.id.txtShowTask) as TextView
+        val viewColorTag = view.viewColorTag!!
+        val txtShowTitle = view.txtShowTitle
+        val txtShowTask = view.txtShowTask
 
-        val txtShowCategory = view.findViewById(R.id.txtShowCategory) as TextView
+        val txtShowCategory = view.txtShowCategory
 
     }
 }

@@ -3,8 +3,8 @@ package com.pinkal.todo.activity
 import android.app.Activity
 import android.os.Bundle
 import android.support.v7.app.AppCompatActivity
-import android.support.v7.widget.Toolbar
 import com.pinkal.todo.R
+import kotlinx.android.synthetic.main.activity_setting.*
 
 /**
  * Created by Pinkal on 22/5/17.
@@ -14,8 +14,6 @@ class SettingActivity : AppCompatActivity() {
     val TAG: String = SettingActivity::class.java.simpleName
 
     val mActivity: Activity = this@SettingActivity
-
-    lateinit var toolbar: Toolbar
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -28,9 +26,8 @@ class SettingActivity : AppCompatActivity() {
      * initializing views and data
      * */
     private fun initialize() {
-        toolbar = findViewById(R.id.toolbarSetting) as Toolbar
 
-        setSupportActionBar(toolbar)
+        setSupportActionBar(toolbarSetting)
 
         supportActionBar!!.setDisplayHomeAsUpEnabled(true)
         supportActionBar!!.setDisplayShowHomeEnabled(true)

@@ -15,6 +15,7 @@ import com.pinkal.todo.`interface`.CategoryUpdate
 import com.pinkal.todo.model.CategoryModel
 import com.pinkal.todo.utils.dialogDeleteCategory
 import com.pinkal.todo.utils.dialogUpdateCategory
+import kotlinx.android.synthetic.main.row_category.view.*
 
 /**
  * Created by Pinkal on 25/5/17.
@@ -104,8 +105,8 @@ class CategoryAdapter(val mContext: Context, mArrayList: ArrayList<CategoryModel
      * initialize view
      * */
     class ViewHolder(view: View?) : RecyclerView.ViewHolder(view) {
-        val txtCategoryName: TextView = view!!.findViewById(R.id.txtCategoryName) as TextView
-        val imgEditCategory: ImageView = view!!.findViewById(R.id.imgEditCategory) as ImageView
-        val imgDeleteCategory: ImageView = view!!.findViewById(R.id.imgDeleteCategory) as ImageView
+        val txtCategoryName: TextView = view!!.txtCategoryName
+        val imgEditCategory: ImageView = view!!.imgEditCategory
+        val imgDeleteCategory: ImageView = view!!.imgDeleteCategory
     }
 }

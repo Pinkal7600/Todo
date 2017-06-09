@@ -12,10 +12,11 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
 import com.pinkal.todo.R
-import com.pinkal.todo.RecyclerItemClickListener
+import com.pinkal.todo.listener.RecyclerItemClickListener
 import com.pinkal.todo.adapter.TaskAdapter
 import com.pinkal.todo.database.manager.DBManagerTask
 import com.pinkal.todo.model.TaskModel
+import kotlinx.android.synthetic.main.fragment_history.view.*
 import java.util.*
 
 /**
@@ -26,7 +27,7 @@ class HistoryFragment : Fragment() {
     val TAG: String = HistoryFragment::class.java.simpleName
 
     lateinit var txtNoHistory: TextView
-    lateinit var recyclerView: RecyclerView
+    lateinit var recyclerViewHistory: RecyclerView
 
     var mArrayList: ArrayList<TaskModel> = ArrayList()
     lateinit var dbManager: DBManagerTask
@@ -48,21 +49,23 @@ class HistoryFragment : Fragment() {
     }
 
     private fun initialize(view: View) {
-        txtNoHistory = view.findViewById(R.id.txtNoHistory) as TextView
-        recyclerView = view.findViewById(R.id.rvHistory) as RecyclerView
-        recyclerView.setHasFixedSize(true)
-        recyclerView.layoutManager = LinearLayoutManager(activity!!) as RecyclerView.LayoutManager
+
+        txtNoHistory = view.txtNoHistory
+        recyclerViewHistory = view.recyclerViewHistory
+
+        recyclerViewHistory.setHasFixedSize(true)
+        recyclerViewHistory.layoutManager = LinearLayoutManager(activity!!) as RecyclerView.LayoutManager
 
         dbManager = DBManagerTask(activity)
         mArrayList = dbManager.getHistoryTaskList()
 
         taskAdapter = TaskAdapter(activity, mArrayList)
-        recyclerView.adapter = taskAdapter
+        recyclerViewHistory.adapter = taskAdapter
 
         initSwipe()
 
-        recyclerView.addOnItemTouchListener(
-                RecyclerItemClickListener(context, recyclerView, object : RecyclerItemClickListener.OnItemClickListener {
+        recyclerViewHistory.addOnItemTouchListener(
+                RecyclerItemClickListener(context, recyclerViewHistory, object : RecyclerItemClickListener.OnItemClickListener {
                     override fun onItemClick(view: View, position: Int) {
                         // do whatever
                         Log.e(TAG, "item click")
@@ -126,7 +129,7 @@ class HistoryFragment : Fragment() {
             }
         }
         val itemTouchHelper = ItemTouchHelper(simpleItemTouchCallback)
-        itemTouchHelper.attachToRecyclerView(recyclerView)
+        itemTouchHelper.attachToRecyclerView(recyclerViewHistory)
     }
 
     fun isTaskListEmpty() {

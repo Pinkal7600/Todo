@@ -6,12 +6,11 @@ import android.app.DatePickerDialog
 import android.app.TimePickerDialog
 import android.os.Bundle
 import android.support.v7.app.AppCompatActivity
-import android.support.v7.widget.Toolbar
 import android.util.Log
 import android.view.Menu
 import android.view.MenuItem
 import android.view.View
-import android.widget.*
+import android.widget.ArrayAdapter
 import com.pinkal.todo.R
 import com.pinkal.todo.`interface`.CategoryAdd
 import com.pinkal.todo.database.manager.DBManagerCategory
@@ -19,6 +18,7 @@ import com.pinkal.todo.database.manager.DBManagerTask
 import com.pinkal.todo.listener.onItemSelectedListener
 import com.pinkal.todo.utils.dialogAddCategory
 import com.pinkal.todo.utils.toastMessage
+import kotlinx.android.synthetic.main.activity_add_task.*
 import java.text.SimpleDateFormat
 import java.util.*
 import kotlin.collections.ArrayList
@@ -32,17 +32,6 @@ class AddTaskActivity : AppCompatActivity(), View.OnClickListener, CategoryAdd, 
     val TAG: String = MainActivity::class.java.simpleName
 
     val mActivity: Activity = this@AddTaskActivity
-
-    lateinit var toolbar: Toolbar
-    lateinit var edtTitle: EditText
-    lateinit var edtTask: EditText
-    lateinit var edtSetDate: EditText
-    lateinit var edtSetTime: EditText
-    lateinit var spinnerCategory: Spinner
-    lateinit var imgAddCategory: ImageView
-    lateinit var imgCancelDate: ImageView
-    lateinit var imgCancelTime: ImageView
-    lateinit var relativeLayoutTime: RelativeLayout
 
     lateinit var myCalendar: Calendar
 
@@ -68,24 +57,10 @@ class AddTaskActivity : AppCompatActivity(), View.OnClickListener, CategoryAdd, 
      * initializing views and data
      * */
     private fun initialize() {
-        toolbar = findViewById(R.id.toolbarAddTask) as Toolbar
 
-        setSupportActionBar(toolbar)
+        setSupportActionBar(toolbarAddTask)
         supportActionBar!!.setDisplayHomeAsUpEnabled(true)
         supportActionBar!!.setDisplayShowHomeEnabled(true)
-
-        /**
-         * Binding views
-         * */
-        edtTitle = findViewById(R.id.edtTitle) as EditText
-        edtTask = findViewById(R.id.edtTask) as EditText
-        edtSetDate = findViewById(R.id.edtSetDate) as EditText
-        edtSetTime = findViewById(R.id.edtSetTime) as EditText
-        spinnerCategory = findViewById(R.id.spinnerCategory) as Spinner
-        imgAddCategory = findViewById(R.id.imgAddCategory) as ImageView
-        imgCancelDate = findViewById(R.id.imgCancelDate) as ImageView
-        imgCancelTime = findViewById(R.id.imgCancelTime) as ImageView
-        relativeLayoutTime = findViewById(R.id.relativeLayoutTime) as RelativeLayout
 
         /**
          * click listener

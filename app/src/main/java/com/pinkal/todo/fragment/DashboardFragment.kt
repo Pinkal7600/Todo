@@ -15,12 +15,13 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
 import com.pinkal.todo.R
-import com.pinkal.todo.RecyclerItemClickListener
 import com.pinkal.todo.activity.AddTaskActivity
 import com.pinkal.todo.adapter.TaskAdapter
 import com.pinkal.todo.database.manager.DBManagerTask
+import com.pinkal.todo.listener.RecyclerItemClickListener
 import com.pinkal.todo.model.TaskModel
 import com.pinkal.todo.utils.DASHBOARD_RECYCLEVIEW_REFRESH
+import kotlinx.android.synthetic.main.fragment_dashboard.view.*
 import java.util.*
 
 
@@ -31,9 +32,9 @@ class DashboardFragment : Fragment(), View.OnClickListener {
 
     val TAG: String = DashboardFragment::class.java.simpleName
 
-    lateinit var fab: FloatingActionButton
+    lateinit var fabAddTask: FloatingActionButton
     lateinit var txtNoTask: TextView
-    lateinit var recyclerView: RecyclerView
+    lateinit var recyclerViewTask: RecyclerView
 
     var mArrayList: ArrayList<TaskModel> = ArrayList()
     lateinit var dbManager: DBManagerTask
@@ -52,31 +53,32 @@ class DashboardFragment : Fragment(), View.OnClickListener {
     }
 
     private fun initialize(view: View) {
-        fab = view.findViewById(R.id.fabAddTask) as FloatingActionButton
-        txtNoTask = view.findViewById(R.id.txtNoTask) as TextView
-        recyclerView = view.findViewById(R.id.rvTask) as RecyclerView
-        recyclerView.setHasFixedSize(true)
-        recyclerView.layoutManager = LinearLayoutManager(activity!!) as RecyclerView.LayoutManager
 
-        fab.setOnClickListener(this)
+        fabAddTask = view.fabAddTask
+        txtNoTask = view.txtNoTask
+        recyclerViewTask = view.recyclerViewTask
+
+        recyclerViewTask.setHasFixedSize(true)
+        recyclerViewTask.layoutManager = LinearLayoutManager(activity!!) as RecyclerView.LayoutManager
+
+        fabAddTask.setOnClickListener(this)
 
         dbManager = DBManagerTask(activity)
         mArrayList = dbManager.getTaskList()
 
         taskAdapter = TaskAdapter(activity, mArrayList)
-        recyclerView.adapter = taskAdapter
+        recyclerViewTask.adapter = taskAdapter
 
         initSwipe()
 
-        recyclerView.addOnItemTouchListener(
-                RecyclerItemClickListener(context, recyclerView, object : RecyclerItemClickListener.OnItemClickListener {
+        recyclerViewTask.addOnItemTouchListener(
+                RecyclerItemClickListener(context, recyclerViewTask, object : RecyclerItemClickListener.OnItemClickListener {
                     override fun onItemClick(view: View, position: Int) {
-                        // do whatever
-                        Log.e(TAG, "item click")
+                        Log.e(TAG, "item click Position : " + position)
                     }
 
                     override fun onLongItemClick(view: View, position: Int) {
-                        Log.e(TAG, "item long click")
+                        Log.e(TAG, "item long click Position : " + position)
                     }
                 })
         )
@@ -158,7 +160,7 @@ class DashboardFragment : Fragment(), View.OnClickListener {
             }
         }
         val itemTouchHelper = ItemTouchHelper(simpleItemTouchCallback)
-        itemTouchHelper.attachToRecyclerView(recyclerView)
+        itemTouchHelper.attachToRecyclerView(recyclerViewTask)
     }
 
     fun isTaskListEmpty() {
