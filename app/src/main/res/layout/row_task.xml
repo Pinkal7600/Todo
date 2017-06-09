@@ -17,7 +17,8 @@
         android:layout_height="wrap_content"
         android:layout_marginBottom="1dp"
         android:layout_marginLeft="5dp"
-        android:background="@color/colorWhite">
+        android:background="@color/colorWhite"
+        android:paddingBottom="5dp">
 
         <RelativeLayout
             android:layout_width="match_parent"
@@ -58,7 +59,7 @@
                 android:layout_height="wrap_content"
                 android:layout_alignParentLeft="true"
                 android:layout_below="@+id/txtShowTitle"
-                android:layout_marginTop="10dp"
+                android:layout_marginTop="12dp"
                 android:text="Task"
                 android:textColor="@color/litherGray"
                 android:textSize="11sp"
@@ -70,7 +71,7 @@
                 android:layout_height="wrap_content"
                 android:layout_alignParentLeft="true"
                 android:layout_below="@+id/textTask"
-                android:layout_marginTop="2dp"
+                android:layout_marginTop="4dp"
                 android:ellipsize="end"
                 android:maxLines="1"
                 android:text="@string/task_title"
