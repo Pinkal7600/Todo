@@ -6,19 +6,16 @@ This app is use for daily tasks. User can create task, edit task and delete task
 Screenshots
 -------------
 
-<img src="screenshort/Screenshot_20170601-164520.png" height="400" alt="Screenshot"/> <img src="screenshort/Screenshot_20170601-164524.png" height="400" alt="Screenshot"/> <img src="screenshort/Screenshot_20170601-164530.png" height="400" alt="Screenshot"/> <img src="screenshort/Screenshot_20170601-164535.png" height="400" alt="Screenshot"/>
+<img src="screenshort/Screenshot_20170601-164520.png" height="400" alt="Screenshot"/> <img src="screenshort/Screenshot_20170601-164524.png" height="400" alt="Screenshot"/> <img src="screenshort/Screenshot_20170601-164530.png" height="400" alt="Screenshot"/>
 
 License
 -------
 
 Copyright 2017 The Android Open Source Project.
 
-Licensed to the Apache Software Foundation (ASF) under one or more contributor
-license agreements.  See the NOTICE file distributed with this work for
-additional information regarding copyright ownership.  The ASF licenses this
-file to you under the Apache License, Version 2.0 (the "License"); you may not
-use this file except in compliance with the License.  You may obtain a copy of
-the License at
+Licensed under the Apache License, Version 2.0 (the "License");
+you may not use this file except in compliance with the License.
+You may obtain a copy of the License at
 
 http://www.apache.org/licenses/LICENSE-2.0
 
