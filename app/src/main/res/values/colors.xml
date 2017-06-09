@@ -14,6 +14,8 @@
     <color name="list_back_color">#f2f2f2</color>
     <color name="green">#388E3C</color>
     <color name="red">#D32F2F</color>
+    <color name="litherGray">#a1a1a1</color>
+    <color name="garkerGray">#767676</color>
 
 
     <array name="random_color">

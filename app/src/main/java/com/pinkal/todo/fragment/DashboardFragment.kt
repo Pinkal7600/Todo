@@ -9,6 +9,7 @@ import android.support.v4.app.Fragment
 import android.support.v7.widget.LinearLayoutManager
 import android.support.v7.widget.RecyclerView
 import android.support.v7.widget.helper.ItemTouchHelper
+import android.util.DisplayMetrics
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
@@ -21,8 +22,9 @@ import com.pinkal.todo.database.manager.DBManagerTask
 import com.pinkal.todo.listener.RecyclerItemClickListener
 import com.pinkal.todo.model.TaskModel
 import com.pinkal.todo.utils.DASHBOARD_RECYCLEVIEW_REFRESH
+import com.pinkal.todo.utils.getFormatDate
+import com.pinkal.todo.utils.getFormatTime
 import kotlinx.android.synthetic.main.fragment_dashboard.view.*
-import java.util.*
 
 
 /**
@@ -39,9 +41,6 @@ class DashboardFragment : Fragment(), View.OnClickListener {
     var mArrayList: ArrayList<TaskModel> = ArrayList()
     lateinit var dbManager: DBManagerTask
     lateinit var taskAdapter: TaskAdapter
-
-    private val paint = Paint()
-
 
     override fun onCreateView(inflater: LayoutInflater?, container: ViewGroup?, savedInstanceState: Bundle?): View? {
 
@@ -75,6 +74,10 @@ class DashboardFragment : Fragment(), View.OnClickListener {
                 RecyclerItemClickListener(context, recyclerViewTask, object : RecyclerItemClickListener.OnItemClickListener {
                     override fun onItemClick(view: View, position: Int) {
                         Log.e(TAG, "item click Position : " + position)
+
+                        val holder: TaskAdapter.ViewHolder = TaskAdapter.ViewHolder(view)
+
+                        clickForDetails(holder, position)
                     }
 
                     override fun onLongItemClick(view: View, position: Int) {
@@ -82,6 +85,49 @@ class DashboardFragment : Fragment(), View.OnClickListener {
                     }
                 })
         )
+    }
+
+    private fun clickForDetails(holder: TaskAdapter.ViewHolder, position: Int) {
+
+        val taskList = taskAdapter.getList()
+
+        if (holder.textTitle.visibility == View.GONE && holder.textTask.visibility == View.GONE) {
+
+            holder.textTitle.visibility = View.VISIBLE
+            holder.textTask.visibility = View.VISIBLE
+            holder.txtShowTitle.maxLines = Integer.MAX_VALUE
+            holder.txtShowTask.maxLines = Integer.MAX_VALUE
+
+            if (taskList[position].date != "") {
+                holder.txtShowDate.text = getFormatDate(taskList[position].date!!)
+                holder.textDate.visibility = View.VISIBLE
+                holder.txtShowDate.visibility = View.VISIBLE
+            }
+
+            if (taskList[position].time != "") {
+                holder.txtShowTime.text = getFormatTime(taskList[position].time!!)
+                holder.textTime.visibility = View.VISIBLE
+                holder.txtShowTime.visibility = View.VISIBLE
+            }
+
+        } else {
+
+            holder.textTitle.visibility = View.GONE
+            holder.textTask.visibility = View.GONE
+            holder.txtShowTask.maxLines = 1
+            holder.txtShowTitle.maxLines = 1
+
+            if (taskList[position].date != "") {
+                holder.textDate.visibility = View.GONE
+                holder.txtShowDate.visibility = View.GONE
+            }
+
+            if (taskList[position].time != "") {
+                holder.textTime.visibility = View.GONE
+                holder.txtShowTime.visibility = View.GONE
+            }
+
+        }
     }
 
     override fun onResume() {
@@ -131,36 +177,73 @@ class DashboardFragment : Fragment(), View.OnClickListener {
                 }
             }
 
-            override fun onChildDraw(c: Canvas, recyclerView: RecyclerView, viewHolder: RecyclerView.ViewHolder, dX: Float, dY: Float, actionState: Int, isCurrentlyActive: Boolean) {
+            override fun onChildDraw(canvas: Canvas, recyclerView: RecyclerView, viewHolder: RecyclerView.ViewHolder, dX: Float, dY: Float, actionState: Int, isCurrentlyActive: Boolean) {
 
-                val icon: Bitmap
-                if (actionState == ItemTouchHelper.ACTION_STATE_SWIPE) {
-
+                if (actionState === ItemTouchHelper.ACTION_STATE_SWIPE) {
+                    // Get RecyclerView item from the ViewHolder
                     val itemView = viewHolder.itemView
-                    val height = itemView.bottom.toFloat() - itemView.top.toFloat()
-                    val width = height / 3
+
+                    val p = Paint()
+                    val icon: Bitmap
 
                     if (dX > 0) {
-                        paint.color = Color.parseColor(getString(R.color.green))
-                        val background = RectF(itemView.left.toFloat(), itemView.top.toFloat(), itemView.left.toFloat() + dX, itemView.bottom.toFloat())
-                        c.drawRect(background, paint)
-                        icon = BitmapFactory.decodeResource(resources, R.mipmap.ic_check_white_png)
-                        val icon_dest = RectF(itemView.left.toFloat() + width, itemView.top.toFloat() + width, itemView.left.toFloat() + 2 * width, itemView.bottom.toFloat() - width)
-                        c.drawBitmap(icon, null, icon_dest, paint)
+                        /* Note, ApplicationManager is a helper class I created
+                            myself to get a context outside an Activity class -
+                            feel free to use your own method */
+
+                        icon = BitmapFactory.decodeResource(
+                                resources, R.mipmap.ic_check_white_png)
+
+                        /* Set your color for positive displacement */
+                        p.color = Color.parseColor(getString(R.color.green))
+
+                        // Draw Rect with varying right side, equal to displacement dX
+                        canvas.drawRect(itemView.left.toFloat(), itemView.top.toFloat(),
+                                itemView.left.toFloat() + dX, itemView.bottom.toFloat(), p)
+
+                        // Set the image icon for Right swipe
+                        canvas.drawBitmap(icon,
+                                itemView.left.toFloat() + convertDpToPx(16),
+                                itemView.top.toFloat() + (itemView.bottom.toFloat() - itemView.top.toFloat() - icon.height.toFloat()) / 2,
+                                p)
                     } else {
-                        paint.color = Color.parseColor(getString(R.color.red))
-                        val background = RectF(itemView.right.toFloat() + dX, itemView.top.toFloat(), itemView.right.toFloat(), itemView.bottom.toFloat())
-                        c.drawRect(background, paint)
-                        icon = BitmapFactory.decodeResource(resources, R.mipmap.ic_delete_white_png)
-                        val icon_dest = RectF(itemView.right.toFloat() - 2 * width, itemView.top.toFloat() + width, itemView.right.toFloat() - width, itemView.bottom.toFloat() - width)
-                        c.drawBitmap(icon, null, icon_dest, paint)
+                        icon = BitmapFactory.decodeResource(
+                                resources, R.mipmap.ic_delete_white_png)
+
+                        /* Set your color for negative displacement */
+                        p.color = Color.parseColor(getString(R.color.red))
+
+
+                        // Draw Rect with varying left side, equal to the item's right side
+                        // plus negative displacement dX
+                        canvas.drawRect(itemView.right.toFloat() + dX, itemView.top.toFloat(),
+                                itemView.right.toFloat(), itemView.bottom.toFloat(), p)
+
+                        //Set the image icon for Left swipe
+                        canvas.drawBitmap(icon,
+                                itemView.right.toFloat() - convertDpToPx(16) - icon.width,
+                                itemView.top.toFloat() + (itemView.bottom.toFloat() - itemView.top.toFloat() - icon.height.toFloat()) / 2,
+                                p)
                     }
+
+                    val ALPHA_FULL: Float = 1.0f
+
+                    // Fade out the view as it is swiped out of the parent's bounds
+                    val alpha: Float = ALPHA_FULL - Math.abs(dX) / viewHolder.itemView.width.toFloat()
+                    viewHolder.itemView.alpha = alpha
+                    viewHolder.itemView.translationX = dX
+
+                } else {
+                    super.onChildDraw(canvas, recyclerView, viewHolder, dX, dY, actionState, isCurrentlyActive)
                 }
-                super.onChildDraw(c, recyclerView, viewHolder, dX, dY, actionState, isCurrentlyActive)
             }
         }
         val itemTouchHelper = ItemTouchHelper(simpleItemTouchCallback)
         itemTouchHelper.attachToRecyclerView(recyclerViewTask)
+    }
+
+    private fun convertDpToPx(dp: Int): Int {
+        return Math.round(dp * (resources.displayMetrics.xdpi / DisplayMetrics.DENSITY_DEFAULT))
     }
 
     fun isTaskListEmpty() {

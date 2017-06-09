@@ -61,6 +61,10 @@ class TaskAdapter(val mContext: Context, var mArrayList: ArrayList<TaskModel>) :
         notifyDataSetChanged()
     }
 
+    fun getList(): ArrayList<TaskModel> {
+        return this.mArrayList
+    }
+
     fun deleteTask(position: Int) {
         dbManager.delete(mArrayList[position].id!!)
         mArrayList.removeAt(position)
@@ -84,10 +88,15 @@ class TaskAdapter(val mContext: Context, var mArrayList: ArrayList<TaskModel>) :
 
     class ViewHolder(view: View) : RecyclerView.ViewHolder(view) {
         val viewColorTag = view.viewColorTag!!
-        val txtShowTitle = view.txtShowTitle
-        val txtShowTask = view.txtShowTask
+        val txtShowTitle = view.txtShowTitle!!
+        val txtShowTask = view.txtShowTask!!
+        val txtShowCategory = view.txtShowCategory!!
 
-        val txtShowCategory = view.txtShowCategory
-
+        val txtShowDate = view.txtShowDate!!
+        val textDate = view.textDate!!
+        val txtShowTime = view.txtShowTime!!
+        val textTime = view.textTime!!
+        val textTitle = view.textTitle!!
+        val textTask = view.textTask!!
     }
 }
