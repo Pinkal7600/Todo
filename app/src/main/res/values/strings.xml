@@ -19,7 +19,7 @@
     <string name="enter_task_title">Enter task title</string>
     <string name="what_is_to_be_done">What is to be done?</string>
     <string name="enter_your_task">Enter your task</string>
-    <string name="set_date_and_time">Set date and time</string>
+    <string name="set_date_and_time">Set reminder date and time</string>
     <string name="add_to_category">Add to category</string>
     <string name="set_date">Set Date</string>
     <string name="set_time">Set Time</string>

@@ -8,6 +8,9 @@ package com.pinkal.todo.utils
  * be access directly without reference
  */
 
+/******************* Play *****************/
+
+val APP_PACKAGE_NAME = "com.todo.android"
 
 /***************  Database  ***************/
 

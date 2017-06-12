@@ -2,6 +2,8 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.pinkal.todo">
 
+    <uses-permission android:name="com.android.alarm.permission.SET_ALARM" />
+
     <application
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
@@ -10,7 +12,7 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
         <activity
-            android:name=".activity.MainActivity"
+            android:name=".MainActivity"
             android:label="@string/app_name"
             android:theme="@style/AppTheme">
             <intent-filter>
@@ -20,11 +22,15 @@
         </activity>
 
         <activity
-            android:name=".activity.SettingActivity"
+            android:name=".settings.activity.SettingActivity"
             android:label="@string/settings" />
         <activity
-            android:name=".activity.AddTaskActivity"
+            android:name=".task.activity.AddTaskActivity"
             android:label="@string/add_task" />
+
+        <receiver
+            android:name=".task.receiver.AlarmReceiver"
+            android:enabled="true" />
     </application>
 
 </manifest>

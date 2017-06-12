@@ -8,10 +8,10 @@ import android.view.LayoutInflater
 import android.widget.EditText
 import android.widget.Toast
 import com.pinkal.todo.R
-import com.pinkal.todo.`interface`.CategoryAdd
-import com.pinkal.todo.`interface`.CategoryDelete
-import com.pinkal.todo.`interface`.CategoryUpdate
-import com.pinkal.todo.database.manager.DBManagerCategory
+import com.pinkal.todo.category.`interface`.CategoryAdd
+import com.pinkal.todo.category.`interface`.CategoryDelete
+import com.pinkal.todo.category.`interface`.CategoryUpdate
+import com.pinkal.todo.category.database.DBManagerCategory
 import java.text.ParseException
 import java.text.SimpleDateFormat
 import java.util.*
