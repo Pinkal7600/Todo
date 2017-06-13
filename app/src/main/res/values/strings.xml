@@ -45,6 +45,8 @@
     <string name="save_task">Save task!</string>
     <string name="save">SAVE</string>
     <string name="please_click_again_to_exit">Please click again to exit</string>
+    <string name="skip"><![CDATA[Skip>>]]></string>
+    <string name="get_started">Get started</string>
 
 
 </resources>

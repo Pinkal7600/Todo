@@ -16,7 +16,22 @@
     <color name="red">#D32F2F</color>
     <color name="litherGray">#a1a1a1</color>
     <color name="garkerGray">#767676</color>
+    <color name="transprent">#00000000</color>
 
+    <color name="redPrimary">#f34235</color>
+    <color name="redPrimaryDark">#d22e2e</color>
+
+    <color name="purplePrimary">#9b26af</color>
+    <color name="purplePrimaryDark">#7a1ea1</color>
+
+    <color name="indigoPrimary">#3F51B5</color>
+    <color name="indigoPrimaryDark">#303F9F</color>
+
+    <color name="orangePrimary">#FF9800</color>
+    <color name="orangePrimaryDark">#F57C00</color>
+
+    <color name="tealPrimary">#009688</color>
+    <color name="tealPrimaryDark">#00796B</color>
 
     <array name="random_color">
         <item name="red_400" type="color">#e84e40</item>

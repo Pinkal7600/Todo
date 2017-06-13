@@ -12,6 +12,12 @@ package com.pinkal.todo.utils
 
 val APP_PACKAGE_NAME = "com.todo.android"
 
+/****************** Intro ********************/
+
+val KEY_PAGE_NUMBER = "pageNum"
+val TOTAL_INTRO_PAGES = 4
+
+
 /***************  Database  ***************/
 
 val DB_NAME = "Todo.db"
