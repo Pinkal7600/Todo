@@ -3,6 +3,7 @@ package com.pinkal.todo
 import android.app.Activity
 import android.content.Intent
 import android.net.Uri
+import android.os.AsyncTask
 import android.os.Bundle
 import android.os.Handler
 import android.support.design.widget.NavigationView
@@ -21,6 +22,7 @@ import com.pinkal.todo.utils.APP_PACKAGE_NAME
 import com.pinkal.todo.utils.toastMessage
 import kotlinx.android.synthetic.main.activity_main.*
 import kotlinx.android.synthetic.main.app_bar_main.*
+import org.jsoup.Jsoup
 
 
 class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelectedListener {
@@ -37,6 +39,8 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
         setContentView(R.layout.activity_main)
 
         initialize()
+
+        checkForUpdate().execute()
 
         // loading dashboard fragment
         val ft = supportFragmentManager.beginTransaction()
@@ -174,5 +178,40 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
                 "Download Link : https://play.google.com/store/apps/details?id=com.todo.android")
         sendIntent.type = "text/plain"
         startActivity(Intent.createChooser(sendIntent, "Send to..."))
+    }
+
+    private inner class checkForUpdate : AsyncTask<String, String, String>() {
+
+        var pInfo = packageManager.getPackageInfo(packageName, 0)
+        val oldVersion: String = pInfo.versionName
+        lateinit var newVersion: String
+
+        override fun doInBackground(vararg urls: String): String? {
+
+
+            newVersion = Jsoup.connect("https://play.google.com/store/apps/details?id=" +
+                    APP_PACKAGE_NAME + "&hl=en")
+                    .timeout(30000)
+                    .userAgent(
+                            "Mozilla/5.0 (Windows; U; WindowsNT 5.1; en-US; rv1.8.1.6) Gecko/20070725 Firefox/2.0.0.6")
+                    .referrer("http://www.google.com").get()
+                    .select("div[itemprop=softwareVersion]").first()
+                    .ownText()
+
+            Log.e("new Version", newVersion)
+            Log.e("old Version", oldVersion)
+
+            return null
+        }
+
+        override fun onPostExecute(result: String?) {
+            super.onPostExecute(result)
+            if (newVersion.equals(oldVersion)) {
+                Log.e(TAG, "Update not available version : " + newVersion)
+            } else {
+                Log.e(TAG, "Update available version : " + newVersion)
+            }
+        }
+
     }
 }
